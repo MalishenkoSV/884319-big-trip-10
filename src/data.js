@@ -1,4 +1,4 @@
-export const constants = {
+export const dataOffer = {
   offer: {
     MIN: 0,
     MAX: 2
@@ -13,6 +13,7 @@ export const constants = {
     MIN: 1,
     MAX: 300
   },
+
   photo: {
     PHOTO_MAX_COUNT: 8,
     PHOTO_MIN_COUNT: 3
