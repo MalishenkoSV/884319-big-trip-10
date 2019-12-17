@@ -1,6 +1,6 @@
-import {getRandomBoolean, getRandomInteger, getFullDate, getRandomDateNow, getRandomElement, getShuffledSubarray} from '../utils.js';
+import {getRandomBoolean, getRandomInteger, getRandomDate, getRandomArrayItem, getShuffledSubarray} from '../utils.js';
 import {dataOffer} from '../data.js';
-import {CITIES, TYPES_OF_EVENT, DESCRIPTIONS, OFFER_OPTIONS} from '../const.js';
+import {CITIES, TYPES_OF_TRANSFERS, DESCRIPTIONS, OFFER_OPTIONS} from '../const.js';
 const numberOfDescription = getRandomInteger(dataOffer.description.MIN, dataOffer.description.MAX);
 
 const DAYS_COUNT = 5;
@@ -15,18 +15,18 @@ const generateOffers = () => {
 };
 
 export const generatePoint = () => {
-  const dateStart = getRandomDateNow(DAYS_COUNT);
+  const dateStart = getRandomDate(DAYS_COUNT);
   const residual = getRandomInteger(20, 180) * 60 * 1000;
   const residualInHours = residual / 1000 / 60 / 60;
   const hours = Math.trunc(residualInHours);
   const minutes = Math.trunc((residualInHours - hours) * 60);
   return {
-    type: getRandomElement(TYPES_OF_EVENT),
-    title: getRandomElement(CITIES),
+    type: getRandomArrayItem(TYPES_OF_TRANSFERS),
+    cities: getRandomArrayItem(CITIES),
     offers: generateOffers(),
     description: getShuffledSubarray(DESCRIPTIONS, numberOfDescription),
     price: getRandomInteger(dataOffer.price.MIN, dataOffer.price.MAX),
-    dateStart: getFullDate(),
+    dateStart,
     dateEnd: dateStart + residual,
     hours,
     minutes,
@@ -35,5 +35,7 @@ export const generatePoint = () => {
 };
 
 export const generatePoints = (count) => {
-  return new Array(count).fill(``).map(generatePoint);
+  const events = new Array(count);
+  return events.fill(``).map(generatePoint);
 };
+

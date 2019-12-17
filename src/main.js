@@ -1,39 +1,31 @@
 
 // main.js
-import {createRouteTemplate} from './components/route.js';
 import {createMenuTemplate} from './components/menu.js';
 import {createFiltersTemplate} from './components/filter.js';
+import {createTripInfoTemplate} from './components/trip-info.js';
 import {createFormSortTemplate} from './components/form-sort.js';
-import {createListEventsTemplate} from './components/list-events.js';
-import {createCardTemplate} from './components/card.js';
+import {createDaysListTemplate} from './components/days-list.js';
 import {createFormEditTemplate} from './components/form-edit.js';
-import {generatePoints} from "./mock/route-point";
+import {generatePoints} from "./mock/event-trip";
 
-
-const CARD_NUMBER = 3;
-
-let events = generatePoints(CARD_NUMBER);
+const EVENT_COUNT = 3;
+const pageHeader = document.querySelector(`.page-header`);
+const tripInfo = pageHeader.querySelector(`.trip-main__trip-info`);
+const costTrip = tripInfo.querySelector(`.trip-info__cost-value`);
+const placeMainControl = pageHeader.querySelector(`.trip-controls`);
+const placeEventsTrip = document.querySelector(`.trip-events`);
+const eventsData = generatePoints(EVENT_COUNT);
 //  функция вставки
 const render = (container, template, place = `beforeend`) => {
   container.insertAdjacentHTML(place, template);
 };
 
-const pageHeader = document.querySelector(`.page-header`);
-const placeRouteTrip = pageHeader.querySelector(`.trip-info`);
-render(placeRouteTrip, createRouteTemplate(events), `beforebegin`);
-
-const placeMainControl = pageHeader.querySelector(`.trip-controls`);
-render(placeMainControl, createMenuTemplate(), `beforebegin`);
-
+render(tripInfo, createTripInfoTemplate(eventsData), `afterbegin`);
+render(placeMainControl, createMenuTemplate());
 render(placeMainControl, createFiltersTemplate());
 
-const pageMain = document.querySelector(`.page-main`);
-const placeEventsTrip = pageMain.querySelector(`.trip-events`);
 render(placeEventsTrip, createFormSortTemplate());
 render(placeEventsTrip, createFormEditTemplate());
-render(placeEventsTrip, createListEventsTemplate(events));
-
-const totalElement = placeRouteTrip.querySelector(`.trip-info__cost-value`);
-const totalCost = events.reduce((reducer, event) => reducer + event.price, 0);
-totalElement.textContent = totalCost.toString();
-
+render(placeEventsTrip, createDaysListTemplate(eventsData));
+const totalCost = eventsData.reduce((reducer, event) => reducer + event.price, 0);
+costTrip.textContent = totalCost.toString();

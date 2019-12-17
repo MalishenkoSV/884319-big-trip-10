@@ -1,4 +1,5 @@
 export const CITIES = [`Moscow`, `Tokyo`, `Paris`, `Melbourne`, `Sydney`, `Berlin`];
+export const FILTERS_NAMES = [`Everything`, `Future`, `Past`];
 export const OFFER_OPTIONS = [
   {
     title: `Add luggage`,
@@ -25,6 +26,17 @@ export const OFFER_OPTIONS = [
     price: `40`,
     type: `train`
   }
+];
+
+export const menuValues = [
+  {
+    title: `Table`,
+    active: true
+  },
+  {
+    title: `Stats`,
+    active: false
+  },
 ];
 export const TYPES_OF_TRANSFERS = [
   `Bus to`,
@@ -53,4 +65,18 @@ export const DESCRIPTIONS = [
   `Aliquam erat volutpat.`,
   `Nunc fermentum tortor ac porta dapibus.`,
   `In rutrum ac purus sit amet tempus.`
+];
+export const MONTH_NAMES = [
+  `January`,
+  `February`,
+  `March`,
+  `April`,
+  `May`,
+  `June`,
+  `July`,
+  `August`,
+  `September`,
+  `October`,
+  `November`,
+  `December`,
 ];

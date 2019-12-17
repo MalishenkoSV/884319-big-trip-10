@@ -1,28 +1,26 @@
-export const createCardTemplate = (typesOfTransfer) => {
-  const {type, city, price, start, end, hours, minutes, offers} = typesOfTransfer;
-  const makeDateStart = () => {
-    new Date(start).toString().slice(4, 21);
-  };
-  const makeTimeStart = () => {
-    new Date(start).toTimeString().slice(0, 5);
-  };
-  const makeDateEnd = () => {
-    new Date(end).toString().slice(4, 21);
-  };
-  const makeTimeEnd = () => {
-    new Date(end).toTimeString().slice(0, 5);
-  };
-  const makeIcon = () => {
-    typesOfTransfer.split(``)[0].toLowerCase();
-  };
-  const makeOffers = () => {
-    Array.from(offers).map((offer) => `<li class="event__offer">
-      <span class="event__offer-title">${offer.option}</span>
+const makeDateStart = (start) => {
+  new Date(start).toString().slice(4, 21);
+};
+const makeTimeStart = (start) => {
+  new Date(start).toTimeString().slice(0, 5);
+};
+const makeDateEnd = (end) => {
+  new Date(end).toString().slice(4, 21);
+};
+const makeTimeEnd = (end) => {
+  new Date(end).toTimeString().slice(0, 5);
+};
+const makeIcon = (type) => {
+  type.split(``)[0].toLowerCase();
+};
+const makeOffers = (offers) => {
+  Array.from(offers).map((offer) => `<li class="event__offer">
+    <span class="event__offer-title">${offer.option}</span>
       &plus;
       &euro;&nbsp;<span class="event__offer-price">${offer.price}</span>
      </li>`).join(``);
-  };
-
+};
+export const createEventTemplate = ({type, city, price, hours, minutes}) => {
   return (
     `<li class="trip-events__item">
         <div class="event">

@@ -1,9 +1,6 @@
 const RANDOM_LIMIT = 0.5;
 const TIME_IN_MS = 60 * 60 * 24 * 1000;
 
-export const formatDateToICO = (date) => {
-  return date.toISOString();
-};
 
 export const castDate = (date) => {
   const hours = date.getHours() > 9 ? date.getHours() : `0${date.getHours()}`;
@@ -11,10 +8,16 @@ export const castDate = (date) => {
   return `${hours}:${minutes}`;
 };
 
-export const formatEditDate = (date) => {
-  return formatDateToICO(date).split(`T`).join(` `);
+export const castZeroFirstFormat = (value) => {
+  return value < 10 ? `0${value}` : String(value);
 };
 
+export const castDateFormat = (date) => {
+  let yyyy = date.getFullYear();
+  let mm = castZeroFirstFormat(date.getMonth() + 1);
+  let dd = castZeroFirstFormat(date.getDate());
+  return `${yyyy}-${mm}-${dd}`;
+};
 export const getEndDate = (someDate) => {
   const targetDate = new Date(someDate);
   targetDate.setMilliseconds(getRandomInteger(0, 4) * 60 * 60 * 1000);
@@ -26,10 +29,14 @@ export const formatToTitleCase = (word) => {
   return `${firstLetter}${word.slice(1)}`;
 };
 
-export const getRandomInteger = (min, max) => Math.floor(min + Math.random() * (max + 1 - min));
-export const getRandomElement = (array) => {
-  const rand = Math.floor(Math.random() * array.length);
-  return array[rand];
+export const getRandomInteger = (min, max) => {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+};
+export const getRandomArrayItem = (array) => {
+  return array[getRandomInteger(0, array.length - 1)];
 };
 
 export const getRandomBoolean = () => {
@@ -61,13 +68,7 @@ export const formatTime = (date) => {
   return `${hours}:${minutes} ${interval}`;
 };
 
-export const getFullDate = (date = new Date()) => {
-  const dd = String(date.getDate()).padStart(2, `0`);
-  const mm = String(date.getMonth() + 1).padStart(2, `0`);
-  const yyyy = date.getFullYear();
 
-  return `${dd}.${mm}.${yyyy}`;
-};
 
 const shuffleArray = (array) => {
   for (let i = array.length - 1; i > 0; i--) {
