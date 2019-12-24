@@ -1,51 +1,16 @@
-import {createFormEditTemplate} from "./form-edit.js";
-import {createEventTemplate} from "./event.js";
-import {castDateFormat} from "../utils.js";
-import {MONTH_NAMES} from "../const.js";
+import {createTripDayTemplate} from "./day.js";
 
-let isEdit = true;
-const createTripDayTemplate = (date, events) => {
-  const dateEvent = new Date(date);
-  const day = dateEvent.getDate();
-  const month = MONTH_NAMES[dateEvent.getMonth()];
-  const year = dateEvent.getFullYear().toString().substr(1);
-  let editMarkup = ``;
-  let eventsMarkup = ``;
-  if (isEdit) {
-    editMarkup = createFormEditTemplate(events[0]);
-    eventsMarkup = events.slice(1).map((event) => createEventTemplate(event)).join(`\n`);
-    isEdit = false;
-  } else {
-    editMarkup = ``;
-    eventsMarkup = events.map((event) => createEventTemplate(event)).join(`\n`);
-  }
-  return (
-    `<li class="trip-days__item  day">
-      <div class="day__info">
-        <span class="day__counter">${day}</span>
-        <time class="day__date" datetime="2019-03-18">${month} ${year}</time>
-      </div>
-      <ul class="trip-events__list">
-        ${editMarkup}
-        ${eventsMarkup}
-      </ul>
-     </li>`
-  );
-};
-export const generateDaysMarkup = (days, events) => {
-  return Array.from(days).map((day) => {
-    const dayEvents = events.filter((event) => castDateFormat(event.dateStart) === day);
-    return createTripDayTemplate(day, dayEvents);
-  }).join(``);
-};
-export const createDaysListTemplate = (events) => {
-  events.sort((a, b) => a.dateStart.getTime() - b.dateStart.getTime());
-  const days = new Set(events.map((event) => castDateFormat(event.dateStart)));
-  const daysMarkup = generateDaysMarkup(days, events);
+export const createDaysListTemplate = (events, dates, transfer, activity, cities, options) => {
 
-  return (
-    `<ul class="trip-days">
-      ${daysMarkup}
-    </ul>`
-  );
+  return `<ul class="trip-days">
+  ${Array.from(dates).map((date, index) => {
+    const dayEvents = events.filter((event) => {
+      const eventDate = `${new Date(event.start)}`.slice(4, 10);
+      return eventDate === date;
+    });
+    return createTripDayTemplate(index, date, dayEvents, transfer, activity, cities, options);
+  }).join(``)
+}
+</ul>`;
+
 };

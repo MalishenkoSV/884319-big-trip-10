@@ -1,13 +1,11 @@
-import {generatePoint} from "../mock/event-trip.js";
 import {OFFER_OPTIONS, TYPES_OF_TRANSFERS, TYPES_OF_ACTIVITY, CITIES} from "../const.js";
-
-const generateOffersMarkup = (offers, acceptedOffers) => {
+import {CITYOPTIONS} from "../mock/event-trip.js";
+const generateOffersMarkup = (offers) => {
   return offers.map((offer) => {
     const {title, type, price} = offer;
-    const isChecked = acceptedOffers.some((acceptedOffer) => acceptedOffer.type === type);
     return (
       `<div class="event__offer-selector">
-       <input class="event__offer-checkbox  visually-hidden" id="event-offer-${type}-1" type="checkbox" name="event-offer-${type}" ${isChecked ? `checked` : ``}>
+       <input class="event__offer-checkbox  visually-hidden" id="event-offer-${type}-1" type="checkbox" name="event-offer-${type}" ${offer.checked ? `checked` : ``}>
        <label class="event__offer-label" for="event-offer-${type}-1">
          <span class="event__offer-title">${title}</span>
           &plus;
@@ -17,10 +15,20 @@ const generateOffersMarkup = (offers, acceptedOffers) => {
     );
   }).join(`\n`);
 };
+const makeTypes = (types) => {
+  return types.map((type) => `<div class="event__type-item">
+      <input id="event-type-${type.split(` `)[0].toLowerCase()}-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="${type.split(` `)[0].toLowerCase()}">
+      <label class="event__type-label  event__type-label--${type}" for="event-type-${type.split(` `)[0].toLowerCase()}-1">${type.split(` `)[0]}</label>
+    </div>`).join(``);
+};
 
-export const createFormEditTemplate = () => {
-  const {type, city, price, description, dateStart, dateEnd, offers, photos} = generatePoint();
-
+const getImages = (photos) => {
+  return photos.map((photo) =>`
+    <img class="event__photo" src="${photo}" alt="Event photo">
+  `).join(``);
+};
+export const createFormEditTemplate = (event) => {
+  const {type, city, description, dateStart, dateEnd, price, offers} = event;
   const offersMarkup = generateOffersMarkup(OFFER_OPTIONS, offers);
   return (
     `<li class="trip-events__item">
@@ -35,10 +43,7 @@ export const createFormEditTemplate = () => {
       <div class="event__type-list">
       <fieldset class="event__type-group">
       <legend class="visually-hidden">Transfer</legend>
-      ${TYPES_OF_TRANSFERS.map((transferType) => `<div class="event__type-item">
-      <input id="event-type-${transferType.split(` `)[0].toLowerCase()}-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="${transferType.split(` `)[0].toLowerCase()}">
-      <label class="event__type-label  event__type-label--${transferType.split(` `)[0].toLowerCase()}" for="event-type-${transferType.split(` `)[0].toLowerCase()}-1">${transferType.split(` `)[0]}</label>
-    </div>`).join(``)}
+      ${makeTypes(TYPES_OF_TRANSFERS)}
     </fieldset>
     <fieldset class="event__type-group">
       <legend class="visually-hidden">Activity</legend>
@@ -51,23 +56,23 @@ export const createFormEditTemplate = () => {
     </div>
     <div class="event__field-group  event__field-group--destination">
     <label class="event__label  event__type-output" for="event-destination-1">
-      ${type}
+      ${makeTypes(TYPES_OF_TRANSFERS)}
     </label>
     <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="${city}" list="destination-list-1">
     <datalist id="destination-list-1">
-      ${CITIES.map((CITY) => `<option value="${CITY}"></option>`)}
+    ${CITIES.map((CITY) => `<option value="${CITY}"></option>`)}
     </datalist>
   </div>
   <div class="event__field-group  event__field-group--time">
   <label class="visually-hidden" for="event-start-time-1">
     From
   </label>
-  <input class="event__input  event__input--time" id="event-start-time-1" type="text" name="event-start-time" value="${dateStart.toString().slice(4, 21)}">
+  <input class="event__input  event__input--time" id="event-start-time-1" type="text" name="event-start-time" value="${dateStart}">
   &mdash;
   <label class="visually-hidden" for="event-end-time-1">
     To
   </label>
-  <input class="event__input  event__input--time" id="event-end-time-1" type="text" name="event-end-time" value="${dateEnd.toString().slice(4, 21)}">
+  <input class="event__input  event__input--time" id="event-end-time-1" type="text" name="event-end-time" value="${dateEnd}">
 </div>
     <div class="event__field-group  event__field-group--price">
       <label class="event__label" for="event-price-1">
@@ -98,10 +103,10 @@ export const createFormEditTemplate = () => {
     </section>
     <section class="event__section  event__section--destination">
       <h3 class="event__section-title  event__section-title--destination">Destination</h3>
-      <p class="event__destination-description">${Array.from(description)}</p>
+      <p class="event__destination-description">${description}</p>
       <div class="event__photos-container">
         <div class="event__photos-tape">
-        ${Array.from(photos).map((url) => `<img class="event__photo" src=${url} alt="Event photo">`).join(``)}
+        ${getImages(CITYOPTIONS)}
         </div>
       </div>
     </section>

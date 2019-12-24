@@ -1,19 +1,16 @@
 import {MONTH_NAMES} from "../const";
 
 const getCities = (events) => {
-  let cities = events.map((event) => event.city);
+  const cities = events.map((event) => event.cityOption.city);
   return new Set(cities);
 };
 
 const getDuration = (events) => {
   const dateStart = events[0].dateStart;
   const dateFinish = events[events.length - 1].dateStart;
-  let duration;
-  if (dateStart.getMonth() === dateFinish.getMonth()) {
-    duration = `${MONTH_NAMES[dateStart.getMonth()]} ${dateStart.getDate()} &mdash; ${dateFinish.getDate()}`;
-  } else {
-    duration = `${MONTH_NAMES[dateStart.getMonth()]} ${dateStart.getDate()} &mdash; ${MONTH_NAMES[dateFinish.getMonth()]} ${dateFinish.getDate()}`;
-  }
+  const duration = `${MONTH_NAMES[dateStart.getMonth()]}
+   ${dateStart.getDate()} &mdash;${(dateStart.getMonth() === dateFinish.getMonth()) ? `` : MONTH_NAMES[dateFinish.getMonth()]}
+   ${dateFinish.getDate()}`;
   return duration;
 };
 
