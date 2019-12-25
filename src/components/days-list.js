@@ -1,16 +1,21 @@
 import {createTripDayTemplate} from "./day.js";
+import {castDateFormat} from "../utils";
 
-export const createDaysListTemplate = (events, dates, transfer, activity, cities, options) => {
+const generateDaysMarkup = (days, events) => {
+  return Array.from(days).map((day) => {
+    const dayEvents = events.filter((event) => castDateFormat(event.dateStart) === day);
+    return createTripDayTemplate(day, dayEvents);
+  }).join(`\n`);
+};
 
-  return `<ul class="trip-days">
-  ${Array.from(dates).map((date, index) => {
-    const dayEvents = events.filter((event) => {
-      const eventDate = `${new Date(event.start)}`.slice(4, 10);
-      return eventDate === date;
-    });
-    return createTripDayTemplate(index, date, dayEvents, transfer, activity, cities, options);
-  }).join(``)
-}
-</ul>`;
+export const createDaysListTemplate = (dayEvents) => {
+  dayEvents.sort((a, b) => a.dateStart.getTime() - b.dateStart.getTime());
+  const days = new Set(dayEvents.map((event) => castDateFormat(event.dateStart)));
+  const daysMarkup = generateDaysMarkup(days, dayEvents);
 
+  return (
+    `<ul class="trip-days">
+      ${daysMarkup}
+    </ul>`
+  );
 };

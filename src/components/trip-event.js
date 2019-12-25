@@ -18,7 +18,7 @@ const makeOffers = (offers) => {
       &euro;&nbsp;<span class="event__offer-price">${offer.price}</span>
      </li>`).join(``);
 };
-export const createEventTemplate = ({type, price, hours, minutes}) => {
+export const createTripEventTemplate = ({type, price, hours, minutes}) => {
   return (
     `<li class="trip-events__item">
         <div class="event">

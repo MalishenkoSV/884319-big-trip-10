@@ -1,22 +1,22 @@
+import {MONTH_NAMES} from "../const.js";
 import {createFormEditTemplate} from "./form-edit.js";
-import {createEventTemplate} from "./event.js";
-import {MONTH_NAMES} from "../const";
-
+import {createTripEventTemplate} from "./trip-event.js";
 let isEdit = true;
+
 export const createTripDayTemplate = (date, events) => {
-  const dateEvent = new Date(date);
-  const day = dateEvent.getDate();
-  const month = MONTH_NAMES[dateEvent.getMonth()];
-  const year = dateEvent.getFullYear().toString().substr(1);
+  const dateObj = new Date(date);
+  const day = dateObj.getDate();
+  const month = MONTH_NAMES[dateObj.getMonth()];
+  const year = dateObj.getFullYear().toString().substr(1);
   let editMarkup = ``;
   let eventsMarkup = ``;
   if (isEdit) {
     editMarkup = createFormEditTemplate(events[0]);
-    eventsMarkup = events.slice(1).map((event) => createEventTemplate(event)).join(`\n`);
+    eventsMarkup = events.slice(1).map((event) => createTripEventTemplate(event)).join(`\n`);
     isEdit = false;
   } else {
     editMarkup = ``;
-    eventsMarkup = events.map((event) => createEventTemplate(event)).join(`\n`);
+    eventsMarkup = events.map((event) => createTripEventTemplate(event)).join(`\n`);
   }
   return (
     `<li class="trip-days__item  day">
@@ -31,4 +31,3 @@ export const createTripDayTemplate = (date, events) => {
      </li>`
   );
 };
-
