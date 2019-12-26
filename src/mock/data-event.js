@@ -1,29 +1,25 @@
-import {getRandomBoolean, getRandomInteger, getRandomDate, getRandomArrayItem} from '../utils.js';
+import {getRandomInteger, getRandomBoolean, getRandomDate, getRandomArrayItem} from '../utils.js';
 import {dataOffer} from '../data.js';
 import {CITIES, TYPES_OF_TRANSFERS, DESCRIPTIONS, OFFER_OPTIONS} from '../const.js';
 
 const COUNT = 5;
-
+const generateDescription = () => {
+  return DESCRIPTIONS.split(/\.\s/).sort(() => getRandomBoolean()).join(`.`);
+};
 const generateCityOption = () => {
   return {
     city: getRandomArrayItem(CITIES),
     photos: new Array(getRandomInteger(dataOffer.photo.PHOTO_MIN_COUNT, dataOffer.photo.PHOTO_MAX_COUNT))
             .fill(``).map(() => `http://picsum.photos/300/150?r=${Math.random()}`),
-    description: new Set(getRandomArrayItem(dataOffer.description.MIN, dataOffer.description.MAX, DESCRIPTIONS))
+    description: generateDescription()
   };
 };
 export const generateCityOptions = () => {
-  const CITYOPTIONS = new Array(COUNT);
-  return CITYOPTIONS.fill(``).map(generateCityOption);
+  const cityOptions = new Array(COUNT);
+  return cityOptions.fill(``).map(generateCityOption);
 };
 
-const generateOffers = () => {
-  return OFFER_OPTIONS
-    .sort(() => getRandomBoolean())
-    .slice(0, getRandomInteger(dataOffer.offer.MIN, dataOffer.offer.MAX));
-};
-
-export const CITYOPTIONS = generateCityOptions(COUNT);
+export const cityOptions = generateCityOptions(COUNT);
 export const generatePoint = () => {
   const dateStart = getRandomDate(COUNT);
   const residual = getRandomInteger(20, 180) * 60 * 1000;
@@ -32,8 +28,8 @@ export const generatePoint = () => {
   const minutes = Math.trunc((residualInHours - hours) * 60);
   return {
     type: getRandomArrayItem(TYPES_OF_TRANSFERS),
-    cityOption: getRandomArrayItem(CITYOPTIONS),
-    offers: generateOffers(),
+    cityOption: getRandomArrayItem(cityOptions),
+    offers: new Set(getRandomArrayItem(0, 2, OFFER_OPTIONS)),
     price: getRandomInteger(dataOffer.price.MIN, dataOffer.price.MAX),
     dateStart,
     dateEnd: dateStart + residual,
@@ -44,6 +40,5 @@ export const generatePoint = () => {
 
 export const generatePoints = (count) => {
   const events = new Array(count);
-  return events.fill(``).map(generatePoint);
+  return events.fill(``).map(generatePoint).sort((a, b) => a.start - b.start);
 };
-

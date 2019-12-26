@@ -1,5 +1,5 @@
 import {OFFER_OPTIONS, TYPES_OF_TRANSFERS, TYPES_OF_ACTIVITY, CITIES} from "../const.js";
-import {CITYOPTIONS} from "../mock/event-trip.js";
+import {cityOptions} from "../mock/data-event.js";
 const generateOffersMarkup = (offers) => {
   return offers.map((offer) => {
     const {title, type, price} = offer;
@@ -47,16 +47,13 @@ export const createFormEditTemplate = (event) => {
     </fieldset>
     <fieldset class="event__type-group">
       <legend class="visually-hidden">Activity</legend>
-      ${TYPES_OF_ACTIVITY.map((activityType) => `<div class="event__type-item">
-      <input id="event-type-${activityType.split(` `)[0].toLowerCase()}-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="${activityType.split(` `)[0].toLowerCase()}">
-      <label class="event__type-label  event__type-label--${activityType.split(` `)[0].toLowerCase()}" for="event-type-${activityType.split(` `)[0].toLowerCase()}-1">${activityType.split(` `)[0]}</label>
-    </div>`).join(``)}
+      ${makeTypes(TYPES_OF_ACTIVITY)}
     </fieldset>
       </div>
     </div>
     <div class="event__field-group  event__field-group--destination">
     <label class="event__label  event__type-output" for="event-destination-1">
-      ${makeTypes(TYPES_OF_TRANSFERS)}
+      ${type}
     </label>
     <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="${city}" list="destination-list-1">
     <datalist id="destination-list-1">
@@ -106,7 +103,7 @@ export const createFormEditTemplate = (event) => {
       <p class="event__destination-description">${description}</p>
       <div class="event__photos-container">
         <div class="event__photos-tape">
-        ${getImages(CITYOPTIONS)}
+        ${getImages(cityOptions)}
         </div>
       </div>
     </section>

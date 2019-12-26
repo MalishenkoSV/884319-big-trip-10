@@ -39,33 +39,41 @@ export const menuValues = [
   },
 ];
 export const TYPES_OF_TRANSFERS = [
+  `Bus`,
+  `Drive`,
+  `Flight`,
+  `Ship`,
+  `Taxi`,
+  `Train`,
+  `Transport`
+];
+export const TYPES_OF_TRANSFERS_TO = [
   `Bus to`,
   `Drive to`,
   `Flight to`,
   `Ship to`,
   `Taxi to`,
   `Train to`,
-  `Transport to`,
+  `Transport to`
 ];
 export const TYPES_OF_ACTIVITY = [
   `Check-in in`,
   `Restaurant in`,
   `Sightseeing in`,
 ];
-export const TYPES_OF_EVENT = TYPES_OF_TRANSFERS.concat(TYPES_OF_ACTIVITY);
-export const DESCRIPTIONS = [
-  `Lorem ipsum dolor sit amet, consectetur adipiscing elit.`,
-  `Cras aliquet varius magna, non porta ligula feugiat eget.`,
-  `Fusce tristique felis at fermentum pharetra.`,
-  `Aliquam id orci ut lectus varius viverra.`,
-  `Nullam nunc ex, convallis sed finibus eget, sollicitudin eget ante.`,
-  `Phasellus eros mauris, condimentum sed nibh vitae, sodales efficitur ipsum.`,
-  `Sed blandit, eros vel aliquam faucibus, purus ex euismod diam, eu luctus nunc ante ut dui.`,
-  `Sed sed nisi sed augue convallis suscipit in sed felis.`,
-  `Aliquam erat volutpat.`,
-  `Nunc fermentum tortor ac porta dapibus.`,
-  `In rutrum ac purus sit amet tempus.`
-];
+export const TYPES_OF_EVENT = TYPES_OF_TRANSFERS_TO.concat(TYPES_OF_ACTIVITY);
+export const DESCRIPTIONS =
+  `Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+  Cras aliquet varius magna, non porta ligula feugiat eget.
+  Fusce tristique felis at fermentum pharetra.
+  Aliquam id orci ut lectus varius viverra.
+  Nullam nunc ex, convallis sed finibus eget, sollicitudin eget ante.
+  Phasellus eros mauris, condimentum sed nibh vitae, sodales efficitur ipsum.
+  Sed blandit, eros vel aliquam faucibus, purus ex euismod diam, eu luctus nunc ante ut dui.
+  Sed sed nisi sed augue convallis suscipit in sed felis.
+  Aliquam erat volutpat.
+  Nunc fermentum tortor ac porta dapibus.
+  In rutrum ac purus sit amet tempus.`;
 export const MONTH_NAMES = [
   `January`,
   `February`,
