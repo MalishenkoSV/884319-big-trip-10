@@ -1,5 +1,18 @@
-import {OFFER_OPTIONS, TYPES_OF_TRANSFERS, TYPES_OF_ACTIVITY, CITIES} from "../const.js";
-import {cityOptions} from "../mock/data-event.js";
+import {OFFER_OPTIONS, TYPES_OF_TRANSFERS, TYPES_OF_ACTIVITY} from "../const.js";
+import {cityOptions, generateCityOption} from "../mock/data-event.js";
+
+// import {castZeroFirstFormat} from "../utils";
+
+// const castDateTimeFormat = (date) => {
+//   date = new Date();
+//   let yy = date.getFullYear();
+//   let mm = castZeroFirstFormat(date.getMonth() + 1);
+//   let dd = castZeroFirstFormat(date.getDate());
+//   let hh = castZeroFirstFormat(date.getHours());
+//   let ii = castZeroFirstFormat(date.getMinutes());
+
+//   return `${dd}/${mm}/${yy} ${hh}:${ii}`;
+// };
 const generateOffersMarkup = (offers) => {
   return offers.map((offer) => {
     const {title, type, price} = offer;
@@ -21,14 +34,24 @@ const makeTypes = (types) => {
       <label class="event__type-label  event__type-label--${type}" for="event-type-${type.split(` `)[0].toLowerCase()}-1">${type.split(` `)[0]}</label>
     </div>`).join(``);
 };
-
-const getImages = (photos) => {
-  return photos.map((photo) =>`
-    <img class="event__photo" src="${photo}" alt="Event photo">
-  `).join(``);
+const cityOption = generateCityOption();
+const images = cityOption.photos;
+const getPhotosMarkup = () => {
+  return images.map((image) => {
+    return (
+      `<img class="event__photo" src="${image}" alt="Event photo">`
+    );
+  }).join(`\n`);
 };
+
 export const createFormEditTemplate = (event) => {
-  const {type, city, description, dateStart, dateEnd, price, offers} = event;
+  const {type, dateStart, dateEnd, price, offers} = event;
+  // const formattedDateStart = castDateTimeFormat(dateStart);
+  // const formattedDateEnd = castDateTimeFormat(dateEnd);
+  const getCities = () => {
+    return cityOptions.slice().map(() => `<option value="${cityOption.city}"></option>`).join(``);
+  };
+
   const offersMarkup = generateOffersMarkup(OFFER_OPTIONS, offers);
   return (
     `<li class="trip-events__item">
@@ -55,9 +78,9 @@ export const createFormEditTemplate = (event) => {
     <label class="event__label  event__type-output" for="event-destination-1">
       ${type}
     </label>
-    <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="${city}" list="destination-list-1">
+    <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="${cityOption.city}" list="destination-list-1">
     <datalist id="destination-list-1">
-    ${CITIES.map((CITY) => `<option value="${CITY}"></option>`)}
+    ${getCities()}
     </datalist>
   </div>
   <div class="event__field-group  event__field-group--time">
@@ -80,6 +103,7 @@ export const createFormEditTemplate = (event) => {
     </div>
     <button class="event__save-btn  btn  btn--blue" type="submit">Save</button>
     <button class="event__reset-btn" type="reset">Delete</button>
+
     <input id="event-favorite-1" class="event__favorite-checkbox  visually-hidden" type="checkbox" name="event-favorite" checked>
     <label class="event__favorite-btn" for="event-favorite-1">
       <span class="visually-hidden">Add to favorite</span>
@@ -100,10 +124,10 @@ export const createFormEditTemplate = (event) => {
     </section>
     <section class="event__section  event__section--destination">
       <h3 class="event__section-title  event__section-title--destination">Destination</h3>
-      <p class="event__destination-description">${description}</p>
+      <p class="event__destination-description">${cityOption.description}</p>
       <div class="event__photos-container">
         <div class="event__photos-tape">
-        ${getImages(cityOptions)}
+        ${getPhotosMarkup()}
         </div>
       </div>
     </section>
