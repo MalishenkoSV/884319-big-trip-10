@@ -1,10 +1,6 @@
 import {OFFER_OPTIONS, TYPES_OF_TRANSFERS, TYPES_OF_ACTIVITY} from "../const.js";
 import {cityOptions, generateCityOption} from "../mock/data-event.js";
-<<<<<<< Updated upstream
-
-=======
 import {createElement} from "../utils/render.js";
->>>>>>> Stashed changes
 // import {castZeroFirstFormat} from "../utils";
 
 // const castDateTimeFormat = (date) => {
