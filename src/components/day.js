@@ -1,6 +1,6 @@
 import {createFormEditTemplate} from "./form-edit.js";
 import {createTripEventTemplate} from "./trip-event.js";
-
+import {createElement} from "../utils/render.js";
 export const createTripDayTemplate = (dayIndex, date, events, transfer, activity, cities, options) => `<li class="trip-days__item  day day--${dayIndex + 1}">
 <div class="day__info">
   <span class="day__counter">${dayIndex + 1}</span>
@@ -16,3 +16,25 @@ ${events.map((event, index) => {
 `)}
 </ul>
 </li>`;
+export default class TripDay {
+  constructor(date) {
+    this._element = null;
+    this._date = date;
+  }
+
+  getTemplate() {
+    return createTripDayTemplate();
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}

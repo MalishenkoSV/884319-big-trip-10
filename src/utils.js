@@ -42,12 +42,14 @@ export const getRandomArrayItem = (array) => {
 export const getRandomBoolean = () => {
   return Math.random() > RANDOM_LIMIT;
 };
-export const getRandomDate = () => {
+export const getRandomDateTime = () => {
   const targetDate = new Date();
-  const sign = getRandomBoolean() ? 1 : -1;
-  const diffValue = sign * getRandomInteger(0, 7);
-
+  const sing = Math.random() > 0.5 ? 1 : -1;
+  const diffValue = sing * getRandomInteger(0, 2);
+  const hours = getRandomInteger(0, 23);
+  const minutes = getRandomInteger(0, 59);
   targetDate.setDate(targetDate.getDate() + diffValue);
+  targetDate.setHours(hours, minutes);
 
   return targetDate;
 };

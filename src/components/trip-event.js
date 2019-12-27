@@ -1,3 +1,4 @@
+import {createElement} from "../utils/render.js";
 const makeDateStart = (start) => {
   new Date(start).toString().slice(4, 21);
 };
@@ -11,16 +12,6 @@ const makeTimeEnd = (end) => {
   new Date(end).toTimeString().slice(0, 5);
 };
 
-// const makeOffers = (offers) => {
-//   Array.from(offers).map((offer) => {
-//     return (
-//       `<li class="event__offer">
-//           <span class="event__offer-title">${offer.type}</span>
-//              &plus;
-//              &euro;&nbsp;<span class="event__offer-price">${offer.price}</span>
-//        </li>`).join(``);
-//   });
-// };
 export const createTripEventTemplate = ({type, offers, price, hours, minutes}) => {
   return (
     `<li class="trip-events__item">
@@ -57,3 +48,25 @@ export const createTripEventTemplate = ({type, offers, price, hours, minutes}) =
         </div>
     </li>`);
 };
+export default class Event {
+  constructor(event) {
+    this._element = null;
+    this._event = event;
+  }
+
+  getTemplate() {
+    return createTripEventTemplate();
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}

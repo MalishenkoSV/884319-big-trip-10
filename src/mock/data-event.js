@@ -1,4 +1,4 @@
-import {getRandomInteger, getRandomBoolean, getRandomDate, getRandomArrayItem} from '../utils.js';
+import {getRandomInteger, getRandomBoolean, getRandomDateTime, getRandomArrayItem} from '../utils.js';
 import {dataOffer} from '../data.js';
 import {CITIES, TYPES_OF_TRANSFERS, DESCRIPTIONS, OFFER_OPTIONS} from '../const.js';
 
@@ -6,7 +6,7 @@ const COUNT = 5;
 const generateDescription = () => {
   return DESCRIPTIONS.split(/\.\s/).sort(() => getRandomBoolean()).join(`.`);
 };
-const generateCityOption = () => {
+export const generateCityOption = () => {
   return {
     city: getRandomArrayItem(CITIES),
     photos: new Array(getRandomInteger(dataOffer.photo.PHOTO_MIN_COUNT, dataOffer.photo.PHOTO_MAX_COUNT))
@@ -14,6 +14,7 @@ const generateCityOption = () => {
     description: generateDescription()
   };
 };
+
 export const generateCityOptions = () => {
   const cityOptions = new Array(COUNT);
   return cityOptions.fill(``).map(generateCityOption);
@@ -21,7 +22,7 @@ export const generateCityOptions = () => {
 
 export const cityOptions = generateCityOptions(COUNT);
 export const generatePoint = () => {
-  const dateStart = getRandomDate(COUNT);
+  const dateStart = getRandomDateTime(COUNT);
   const residual = getRandomInteger(20, 180) * 60 * 1000;
   const residualInHours = residual / 1000 / 60 / 60;
   const hours = Math.trunc(residualInHours);

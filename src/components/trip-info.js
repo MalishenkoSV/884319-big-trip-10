@@ -1,4 +1,5 @@
 import {MONTH_NAMES} from "../const.js";
+import {createElement} from "../utils/render.js";
 
 const getCities = (events) => {
   const cities = events.map((event) => event.cityOption.city);
@@ -16,7 +17,7 @@ const getDuration = (events) => {
 
 
 export const createTripInfoTemplate = (events) => {
-  events.slice().sort((a, b) => a.dateStart.getTime() - b.dateStart.getTime());
+  // events.slice().sort((a, b) => a.dateStart.getTime() - b.dateStart.getTime());
   const cities = Array.from(getCities(events));
   const title = cities > 3 ? `${cities.shift()} &mdash; ${cities.pop()}` : cities.join(` &mdash; `);
   const duration = getDuration(events);
@@ -28,3 +29,25 @@ export const createTripInfoTemplate = (events) => {
      </div>`
   );
 };
+export default class TripInfo {
+  constructor(events) {
+    this._element = null;
+    this._events = events;
+  }
+
+  getTemplate() {
+    return createTripInfoTemplate(this._events);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}
