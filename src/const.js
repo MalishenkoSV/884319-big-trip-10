@@ -1,32 +1,15 @@
 export const CITIES = [`Moscow`, `Tokyo`, `Paris`, `Melbourne`, `Sydney`, `Berlin`];
 export const FILTERS_NAMES = [`Everything`, `Future`, `Past`];
 export const OFFER_OPTIONS = [
-  {
-    title: `Add luggage`,
-    price: `10`,
-    type: `luggage`
-  },
-  {
-    title: `Switch to comfort class`,
-    price: `100`,
-    type: `comfort`
-  },
-  {
-    title: `Add meal`,
-    price: `15`,
-    type: `meal`
-  },
-  {
-    title: `Choose seats`,
-    price: `5`,
-    type: `seats`
-  },
-  {
-    title: `Travel by train`,
-    price: `40`,
-    type: `train`
-  }
+  {"type": `luggage`, "name": `Add luggage`, "price": 30},
+  {"type": `comfort`, "name": `Switch to comfort`, "price": 100},
+  {"type": `meal`, "name": `Lunch in city`, "price": 35},
+  {"type": `meal`, "name": `Add breakfast`, "price": 15},
+  {"type": `seats`, "name": `Choose seats`, "price": 5},
+  {"type": `meal`, "name": `Add meal`, "price": 15},
+  {"type": `train`, "name": `Travel by train`, "price": 50},
 ];
+
 
 export const menuValues = [
   {

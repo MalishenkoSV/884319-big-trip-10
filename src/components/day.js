@@ -1,29 +1,30 @@
-import {createFormEditTemplate} from "./form-edit.js";
-import {createTripEventTemplate} from "./trip-event.js";
+import {MONTH_NAMES} from "../const";
 import {createElement} from "../utils/render.js";
-export const createTripDayTemplate = (dayIndex, date, events, transfer, activity, cities, options) => `<li class="trip-days__item  day day--${dayIndex + 1}">
-<div class="day__info">
-  <span class="day__counter">${dayIndex + 1}</span>
-  <time class="day__date" datetime="${new Date(date).toString().slice(4, 11)}">${new Date(date).toString().slice(4, 11)}</time>
-</div>
-<ul class="trip-events__list">
-${events.map((event, index) => {
-    if (dayIndex === 0 && index === 0) {
-      return createFormEditTemplate(event, transfer, activity, cities, options);
-    }
-    return createTripEventTemplate(event);
-  }).join(`
-`)}
-</ul>
-</li>`;
-export default class TripDay {
-  constructor(date) {
+import {castDateTimeFormat} from "../utils.js";
+
+
+const createDayItemTemplate = (day, dayCount) => {
+  return (
+    `<li class="trip-days__item  day">
+      <div class="day__info">
+        <span class="day__counter">${dayCount + 1}</span>
+        <time class="day__date" datetime="${castDateTimeFormat(day)}">${MONTH_NAMES[new Date(day).getMonth()]}&nbsp;${new Date(day).getDate()}</time>
+      </div>
+      <ul class="trip-events__list">
+      </ul>
+    </li>`
+  );
+};
+
+export default class TripDayItem {
+  constructor(day, dayCount) {
+    this._day = day;
+    this._dayCount = dayCount;
     this._element = null;
-    this._date = date;
   }
 
   getTemplate() {
-    return createTripDayTemplate();
+    return createDayItemTemplate(this._day, this._dayCount);
   }
 
   getElement() {

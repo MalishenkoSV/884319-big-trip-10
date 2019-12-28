@@ -1,6 +1,6 @@
 import {getRandomInteger, getRandomBoolean, getRandomDateTime, getRandomArrayItem} from '../utils.js';
 import {dataOffer} from '../data.js';
-import {CITIES, TYPES_OF_TRANSFERS, DESCRIPTIONS, OFFER_OPTIONS} from '../const.js';
+import {CITIES, DESCRIPTIONS, OFFER_OPTIONS, TYPES_OF_ACTIVITY, TYPES_OF_TRANSFERS} from '../const.js';
 
 const COUNT = 5;
 const generateDescription = () => {
@@ -22,24 +22,20 @@ export const generateCityOptions = () => {
 
 export const cityOptions = generateCityOptions(COUNT);
 export const generatePoint = () => {
-  const dateStart = getRandomDateTime(COUNT);
-  const residual = getRandomInteger(20, 180) * 60 * 1000;
-  const residualInHours = residual / 1000 / 60 / 60;
-  const hours = Math.trunc(residualInHours);
-  const minutes = Math.trunc((residualInHours - hours) * 60);
+  const dates = [getRandomDateTime(), getRandomDateTime()];
+  dates.sort((a, b) => a.getTime() - b.getTime());
   return {
-    type: getRandomArrayItem(TYPES_OF_TRANSFERS),
+    type: getRandomArrayItem(getRandomBoolean ? TYPES_OF_TRANSFERS : TYPES_OF_ACTIVITY),
     cityOption: getRandomArrayItem(cityOptions),
     offers: new Set(getRandomArrayItem(0, 2, OFFER_OPTIONS)),
     price: getRandomInteger(dataOffer.price.MIN, dataOffer.price.MAX),
-    dateStart,
-    dateEnd: dateStart + residual,
-    hours,
-    minutes
+    dateStart: dates[0],
+    dateEnd: dates[1],
+    duration: dates[1] - dates[0]
   };
 };
 
 export const generatePoints = (count) => {
   const events = new Array(count);
-  return events.fill(``).map(generatePoint).sort((a, b) => a.start - b.start);
+  return events.fill(``).map(generatePoint).sort((a, b) => a.dateStart - b.dateStart);
 };

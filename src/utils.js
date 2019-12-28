@@ -7,7 +7,6 @@ export const castDate = (date) => {
   const minutes = date.getMinutes() > 9 ? date.getMinutes() : `0${date.getMinutes()}`;
   return `${hours}:${minutes}`;
 };
-
 export const castZeroFirstFormat = (value) => {
   return value < 10 ? `0${value}` : String(value);
 };
@@ -44,7 +43,7 @@ export const getRandomBoolean = () => {
 };
 export const getRandomDateTime = () => {
   const targetDate = new Date();
-  const sing = Math.random() > 0.5 ? 1 : -1;
+  const sing = getRandomBoolean ? 1 : -1;
   const diffValue = sing * getRandomInteger(0, 2);
   const hours = getRandomInteger(0, 23);
   const minutes = getRandomInteger(0, 59);
@@ -53,22 +52,41 @@ export const getRandomDateTime = () => {
 
   return targetDate;
 };
-// дата в диапазоне от сегодняшнего
-export const getRandomDateNow = (days) => {
-  return Date.now() + (getRandomInteger(0, (days * 24))) * TIME_IN_MS / 24;
-};
 const castTimeFormat = (value) => {
   return value < 10 ? `0${value}` : String(value);
 };
 
 export const formatTime = (date) => {
-  const hours = castTimeFormat(date.getHours() % 12);
+  const day = castTimeFormat(date.getDate());
+  const month = castTimeFormat(date.getMonth() + 1);
+  const year = String(date.getFullYear()).slice(2);
+  const hours = castTimeFormat(date.getHours());
   const minutes = castTimeFormat(date.getMinutes());
-
-  const interval = date.getHours() > 11 ? `pm` : `am`;
-
-  return `${hours}:${minutes} ${interval}`;
+  return `${day}/${month}/${year} ${hours}:${minutes}`;
 };
+export const getDuration = (n) => {
+  const hours = (n / 60);
+  const rhours = Math.floor(hours);
+  const minutes = (hours - rhours) * 60;
+  const rminutes = Math.round(minutes);
+  return `${rhours}H ${rminutes}M`;
+};
+
+export const castDateTimeFormat = (date) => {
+  date = new Date();
+  let yy = date.getFullYear();
+  let mm = castZeroFirstFormat(date.getMonth() + 1);
+  let dd = castZeroFirstFormat(date.getDate());
+  let hh = castZeroFirstFormat(date.getHours());
+  let ii = castZeroFirstFormat(date.getMinutes());
+
+  return `${dd}/${mm}/${yy} ${hh}:${ii}`;
+};
+// дата в диапазоне от сегодняшнего
+export const getRandomDateNow = (days) => {
+  return Date.now() + (getRandomInteger(0, (days * 24))) * TIME_IN_MS / 24;
+};
+
 
 const shuffleArray = (array) => {
   for (let i = array.length - 1; i > 0; i--) {

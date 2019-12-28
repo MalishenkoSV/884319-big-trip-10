@@ -1,68 +1,69 @@
 import {createElement} from "../utils/render.js";
-const makeDateStart = (start) => {
-  new Date(start).toString().slice(4, 21);
-};
-const makeTimeStart = (start) => {
-  new Date(start).toTimeString().slice(0, 5);
-};
-const makeDateEnd = (end) => {
-  new Date(end).toString().slice(4, 21);
-};
-const makeTimeEnd = (end) => {
-  new Date(end).toTimeString().slice(0, 5);
-};
+import {formatTime, getDuration} from "../utils.js";
 
-export const createTripEventTemplate = ({type, offers, price, hours, minutes}) => {
-  return (
-    `<li class="trip-events__item">
-        <div class="event">
-            <div class="event__type">
-                <img class="event__type-icon" width="42" height="42" src="img/icons/${type}.png" alt="Event type icon">
-            </div>
-            <h3 class="event__title">${type}</h3>
 
-            <div class="event__schedule">
-                <p class="event__time">
-                    <time class="event__start-time" datetime="${makeDateStart()}">${makeTimeStart()}</time>
-                        &mdash;
-                    <time class="event__end-time" datetime="${makeDateEnd()}">${makeTimeEnd()}</time>
-                </p>
-                <p class="event__duration">${hours}H ${minutes}M</p>
-            </div>
-
-            <p class="event__price">
-                &euro;&nbsp;<span class="event__price-value">${price}</span>
-            </p>
-
-            <h4 class="visually-hidden">Offers:</h4>
-            <ul class="event__selected-offers">
-                ${Array.from(offers).map((offer) => `<li class="event__offer">
-                <span class="event__offer-title">${offer.option}</span>
-                &plus;
-                &euro;&nbsp;<span class="event__offer-price">${offer.price}</span>
-               </li>`).join(``)}
-            </ul>
-            <button class="event__rollup-btn" type="button">
-                <span class="visually-hidden">Open event</span>
-            </button>
-        </div>
-    </li>`);
-};
 export default class Event {
   constructor(event) {
-    this._element = null;
     this._event = event;
+    this._element = null;
+  }
+
+  createEventOfferMarkup(offers) {
+    return offers.slice(0, 3)
+    .map((offer) => {
+      return (
+        `<span class="event__offer-title">
+          ${offer.name}
+        </span>
+        <span class="event__offer-price">
+          &plus;&nbsp;${offer.price}&nbsp;&euro;
+        </span>
+        <br>`
+      );
+    })
+    .join(`\n`);
   }
 
   getTemplate() {
-    return createTripEventTemplate();
+    const {type, cityOption, price, offers, dateStart, dateEnd} = this._event;
+    const offersList = this.createEventOfferMarkup(Array.from(offers));
+    const durationInMinutes = (dateEnd.getTime() - dateStart.getTime()) / 1000 / 60;
+    return (
+      `<li class="trip-events__item">
+        <div class="event">
+          <div class="event__type">
+            <img class="event__type-icon" width="42" height="42" src="img/icons/${type.toLowerCase()}.png" alt="Event type icon">
+          </div>
+          <h3 class="event__title">${type} to ${cityOption.city}</h3>
+          <div class="event__schedule">
+            <p class="event__time">
+              <time class="event__start-time" datetime="${dateStart.toISOString()}">${formatTime(dateStart)}</time>
+              &mdash;
+              <time class="event__end-time" datetime="${dateEnd.toISOString()}">${formatTime(dateEnd)}</time>
+              </p>
+              <p class="event__duration">${getDuration(durationInMinutes)}</p>
+          </div>
+          <p class="event__price">
+            &euro;&nbsp;<span class="event__price-value">${price}</span>
+          </p>
+          <h4 class="visually-hidden">Offers:</h4>
+          <ul class="event__selected-offers">
+            <li class="event__offer">
+              ${offersList}
+            </li>
+          </ul>
+          <button class="event__rollup-btn" type="button">
+            <span class="visually-hidden">Open event</span>
+          </button>
+        </div>
+      </li>`
+    );
   }
 
   getElement() {
     if (!this._element) {
       this._element = createElement(this.getTemplate());
     }
-
     return this._element;
   }
 
