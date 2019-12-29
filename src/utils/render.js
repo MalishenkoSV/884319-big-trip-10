@@ -7,10 +7,10 @@ export const getRandomInteger = (min, max) => {
 export const render = (container, element, place) => {
   switch (place) {
     case RenderPosition.AFTERBEGIN:
-      container.prepend(element.getElement());
+      container.prepend(element);
       break;
     default:
-      container.append(element.getElement());
+      container.append(element);
   }
 
 };

@@ -5,8 +5,8 @@ import {formatTime} from "../utils";
 
 
 export default class FormEdit {
-  constructor(card) {
-    this._card = card;
+  constructor(event) {
+    this._event = event;
     this._element = null;
   }
 
@@ -43,26 +43,24 @@ export default class FormEdit {
         <label class="event__type-label  event__type-label--${type}" for="event-type-${type.split(` `)[0].toLowerCase()}-1">${type.split(` `)[0]}</label>
       </div>`).join(``);
   }
-  getPhotosMarkup(images) {
-    return images.map((image) => {
+  getPhotosMarkup(photos) {
+    return photos.map((photo) => {
       return (
-        `<img class="event__photo" src="${image}" alt="Event photo">`
+        `<img class="event__photo" src="${photo}" alt="Event photo">`
       );
     }).join(`\n`);
   }
 
   getTemplate() {
-    const {type, isFavorite, cityOption} = this._card;
+    const {type, cityOption} = this._event;
+    const city = this._event.cityOption.city;
     const transferType = this.makeTypes(TYPES_OF_TRANSFERS);
     const activityType = this.createTypeTemplate(TYPES_OF_ACTIVITY);
     const offers = this.generateOffersMarkup(OFFER_OPTIONS);
-    const photo = this.getPhotosMarkup(cityOption.photos);
-    const description = cityOption.description;
-    const startDate = formatTime(this._card.dateStart);
-    const endDate = formatTime(this._card.dateEnd);
-    const city = cityOption.city;
-    const getCities = () => {
-      return cityOptions.map(() => `<option value="${city}"></option>`).join(``);
+    const startDate = formatTime(this._event.dateStart);
+    const endDate = formatTime(this._event.dateEnd);
+    const getCities = (events) => {
+      return events.map((event) => `<option value="${event.cityOption.city}"></option>`).join(``);
     };
     return (
       `<li class="trip-events__item">
@@ -138,7 +136,11 @@ export default class FormEdit {
         <p class="event__destination-description">${description}</p>
         <div class="event__photos-container">
           <div class="event__photos-tape">
-          ${photo}
+          ${cityOption.photos.map((photo) => {
+            return (
+              `<img class="event__photo" src="${photo}" alt="Event photo">`
+            );
+          }).join(`\n`)}
           </div>
         </div>
       </section>
