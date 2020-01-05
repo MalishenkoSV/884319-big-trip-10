@@ -1,6 +1,5 @@
 import {createElement} from "../utils/render.js";
 
-
 export default class TripDays {
   constructor(tripDays) {
     this._tripDays = tripDays;
@@ -10,6 +9,7 @@ export default class TripDays {
   getTemplate() {
     return (
       `<ul class="trip-days">
+
       </ul>`
     );
   }

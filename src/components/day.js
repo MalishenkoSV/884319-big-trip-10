@@ -4,6 +4,7 @@ import {castDateTimeFormat} from "../utils.js";
 
 
 const createDayItemTemplate = (day, dayCount) => {
+
   return (
     `<li class="trip-days__item  day">
       <div class="day__info">
@@ -17,14 +18,13 @@ const createDayItemTemplate = (day, dayCount) => {
 };
 
 export default class TripDayItem {
-  constructor(day, dayCount) {
+  constructor(day) {
     this._day = day;
-    this._dayCount = dayCount;
     this._element = null;
   }
 
   getTemplate() {
-    return createDayItemTemplate(this._day, this._dayCount);
+    return createDayItemTemplate(this._day);
   }
 
   getElement() {

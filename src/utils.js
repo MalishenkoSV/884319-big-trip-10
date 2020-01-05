@@ -28,15 +28,9 @@ export const formatToTitleCase = (word) => {
   return `${firstLetter}${word.slice(1)}`;
 };
 
-export const getRandomInteger = (min, max) => {
-  min = Math.ceil(min);
-  max = Math.floor(max);
+export const getRandomInteger = (max, min = 0) => Math.floor(Math.random() * (max - min + 1) + min);
 
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-};
-export const getRandomArrayItem = (array) => {
-  return array[getRandomInteger(0, array.length - 1)];
-};
+export const getRandomArrayItem = (array) => array[getRandomInteger(array.length - 1)];
 
 export const getRandomBoolean = () => {
   return Math.random() > RANDOM_LIMIT;

@@ -1,7 +1,7 @@
 import {MONTH_NAMES} from "../const.js";
 import {createElement} from "../utils/render.js";
 
-const getCities = (events) => {
+export const getCities = (events) => {
   const cities = events.map((event) => event.cityOption.city);
   return new Set(cities);
 };

@@ -15,9 +15,8 @@ export const generateCityOption = () => {
   };
 };
 
-export const generateCityOptions = () => {
-  const cityOptions = new Array(COUNT);
-  return cityOptions.fill(``).map(generateCityOption);
+const generateCityOptions = () => {
+  return new Array(COUNT).fill(``).map(generateCityOption);
 };
 
 export const cityOptions = generateCityOptions(COUNT);

@@ -5,13 +5,14 @@ import Filters from './components/filter.js';
 import TripInfo from './components/trip-info.js';
 import FormSort from './components/form-sort.js';
 import TripDays from './components/days-list.js';
-import TripDay from './components/day.js';
+import TripDayItem from './components/day.js';
 import Event from './components/trip-event.js';
 import FormEdit from './components/form-edit.js';
 import AddEvent from './components/add-event.js';
-import {generatePoints} from "./mock/data-event.js";
-import {render, RenderPosition} from "./utils/render.js";
-import {castDateTimeFormat} from "./utils.js";
+import {generatePoints} from './mock/data-event.js';
+import {render, RenderPosition} from './utils/render.js';
+import {castDateTimeFormat} from './utils.js';
+import {TYPES_OF_TRANSFERS, TYPES_OF_ACTIVITY, CITIES, OFFER_OPTIONS} from './const.js';
 
 const EVENT_COUNT = 3;
 const pageHeader = document.querySelector(`.page-header`);
@@ -35,14 +36,16 @@ render(placeMainControl, menuElement);
 render(placeMainControl, filtersElement);
 render(placeEventsTrip, formSortElement);
 render(placeEventsTrip, addEventElement);
-render(placeEventsTrip, tripDaysList);
-
 
 const renderEventItem = (dayEvent) => {
-  const formEditElement = new FormEdit(dayEvent).getElement();
+  const tripDay = new TripDayItem(dayEvent);
+  const formEditElement = new FormEdit(dayEvent, TYPES_OF_TRANSFERS, TYPES_OF_ACTIVITY, CITIES, OFFER_OPTIONS).getElement();
+  const eventsList = tripDay.getElement().querySelector(`.trip-events__list`);
   const eventItem = new Event(dayEvent).getElement();
   const editButton = eventItem.querySelector(`.event__rollup-btn`);
-  dayEvents.forEach(() => {
+  const eventsDay = dayEvents.filter((event) => castDateTimeFormat(event.dateStart) === dayEvent);
+
+  eventsDay.forEach(() => {
     editButton.addEventListener(`click`, function () {
       eventsList.replaceChild(formEditElement, eventItem);
     });
@@ -53,18 +56,15 @@ const renderEventItem = (dayEvent) => {
     });
     render(eventsList, eventItem, RenderPosition.BEFORE_BEGIN);
   });
+  return tripDay;
 };
 
-
-const eventsList = document.querySelector(`.trip-events__list`);
-
+render(placeEventsTrip, tripDaysList);
 const days = Array.from(new Set(dayEvents.map((event) => castDateTimeFormat(event.dateStart))));
-days.forEach((date, i) => {
-  const tripDay = new TripDay(date, i).getElement();
-  renderEventItem(tripDay);
-  render(tripDaysList, tripDay);
+days.forEach((day) => {
+  const tripDay = renderEventItem(day);
+  render(tripDaysList, tripDay.getElement());
 });
-
 
 const totalElement = tripInfo.querySelector(`.trip-info__cost-value`);
 const totalCost = dayEvents.reduce((reducer, event) => reducer + event.price, 0);
