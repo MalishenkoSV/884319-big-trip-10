@@ -1,7 +1,6 @@
 import {castDateTimeFormat} from "../utils.js";
 import {createElement} from "../utils/render.js";
-import {OFFER_OPTIONS, TYPES_OF_ACTIVITY, TYPES_OF_TRANSFERS} from "../const.js";
-import {getCities} from "./trip-info.js";
+import {OFFER_OPTIONS, TYPES_OF_ACTIVITY, TYPES_OF_TRANSFERS, CITIES} from "../const.js";
 
 const generateOffersMarkup = (offers) => {
   return offers.map((offer) => {
@@ -19,7 +18,7 @@ const generateOffersMarkup = (offers) => {
   }).join(`\n`);
 };
 const createEventEditTemplate = (event) => {
-  const {cityOption: {city, description, photos}, type, dateStart, dateEnd, price, offers} = event;
+  const {type, dateStart, dateEnd, price, offers} = event;
   const formattedDateStart = castDateTimeFormat(dateStart);
   const formattedDateEnd = castDateTimeFormat(dateEnd);
   const offersMarkup = generateOffersMarkup(OFFER_OPTIONS, offers);
@@ -55,7 +54,7 @@ const createEventEditTemplate = (event) => {
         </label>
         <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="${event.cityOption.city}" list="destination-list-1">
         <datalist id="destination-list-1">
-          ${getCities()}
+        ${CITIES.map((CITY) => `<option value="${CITY}"></option>`)}
         </datalist>
       </div>
       <div class="event__field-group  event__field-group--time">
