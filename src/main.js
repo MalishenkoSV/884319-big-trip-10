@@ -9,7 +9,6 @@ import TripDayItem from './components/day.js';
 import Event from './components/trip-event.js';
 import EventsList from './components/events-list.js';
 import FormEdit from './components/form-edit.js';
-import {getCities} from './components/trip-info.js';
 import AddEvent from './components/add-event.js';
 import {generatePoints, getUniqDates} from './mock/data-event.js';
 import {render, RenderPosition} from './utils/render.js';
@@ -24,14 +23,13 @@ const addButton = document.querySelector(`.trip-main__event-add-btn`);
 
 const eventsData = generatePoints(EVENT_COUNT);
 const uniqDates = getUniqDates(eventsData);
-const tripCities = getCities(eventsData);
 
 //  функция вставки
 const menuElement = new Menu().getElement();
 const filtersElement = new Filters().getElement();
 const formSortElement = new FormSort().getElement();
 const addEventElement = new AddEvent(TYPES_OF_TRANSFERS, TYPES_OF_ACTIVITY, CITIES).getElement();
-const tripInfoElement = new TripInfo(tripCities, eventsData).getElement();
+const tripInfoElement = new TripInfo(eventsData).getElement();
 
 render(placeMainControl, menuElement);
 render(placeMainControl, filtersElement);
