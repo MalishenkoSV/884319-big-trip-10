@@ -38,3 +38,6 @@ export const generatePoints = (count) => {
   const events = new Array(count);
   return events.fill(``).map(generatePoint).sort((a, b) => a.dateStart - b.dateStart);
 };
+export const getUniqDates = (eventsData) => {
+  return Array.from(new Set(eventsData.map((eventData) => eventData.date)));
+};

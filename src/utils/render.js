@@ -6,7 +6,7 @@ export const getRandomInteger = (min, max) => {
 };
 export const render = (container, element, place) => {
   switch (place) {
-    case RenderPosition.AFTERBEGIN:
+    case RenderPosition.AFTER_BEGIN:
       container.prepend(element);
       break;
     default:
