@@ -41,3 +41,9 @@ export const generatePoints = (count) => {
 export const getUniqDates = (eventsData) => {
   return Array.from(new Set(eventsData.map((eventData) => eventData.date)));
 };
+// // массив со всеми эвентами
+
+// export const getEventsData = (count) => {
+//   const events = new Array(count);
+//   return events.fill(``).map(generatePoint).sort((a, b) => a.start - b.start);
+// };

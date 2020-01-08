@@ -1,5 +1,4 @@
 import {castDateTimeFormat} from "../utils.js";
-import {createElement} from "../utils/render.js";
 import {OFFER_OPTIONS, TYPES_OF_ACTIVITY, TYPES_OF_TRANSFERS, CITIES} from "../const.js";
 
 const generateOffersMarkup = (offers) => {
@@ -17,7 +16,7 @@ const generateOffersMarkup = (offers) => {
     );
   }).join(`\n`);
 };
-const createEventEditTemplate = (event) => {
+export const createFormEditTemplate = (event) => {
   const {type, dateStart, dateEnd, price, offers} = event;
   const formattedDateStart = castDateTimeFormat(dateStart);
   const formattedDateEnd = castDateTimeFormat(dateEnd);
@@ -108,26 +107,3 @@ const createEventEditTemplate = (event) => {
     </form>
     </li>`;
 };
-
-export default class FormEdit {
-  constructor(event) {
-    this._element = null;
-    this._event = event;
-  }
-
-  getTemplate() {
-    return createEventEditTemplate(this._event);
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
-  }
-}

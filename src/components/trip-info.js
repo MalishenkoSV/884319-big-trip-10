@@ -1,5 +1,4 @@
 import {MONTH_NAMES} from "../const.js";
-import {createElement} from "../utils/render.js";
 
 export const getCities = (events) => {
   const cities = events.map((event) => event.cityOption.city);
@@ -29,25 +28,3 @@ export const createTripInfoTemplate = (events) => {
      </div>`
   );
 };
-export default class TripInfo {
-  constructor(events) {
-    this._element = null;
-    this._events = events;
-  }
-
-  getTemplate() {
-    return createTripInfoTemplate(this._events);
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
-  }
-}
