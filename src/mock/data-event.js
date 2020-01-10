@@ -1,10 +1,10 @@
-import {getRandomInteger, getRandomBoolean, getRandomDateTime, getRandomArrayItem} from '../utils.js';
+import {getRandomInteger, getRandomBoolean, getRandomDate, getRandomArrayItem} from '../utils.js';
 import {dataOffer} from '../data.js';
 import {POINT_OFFERS, PointType, Destination, DESCRIPTION, CITIES} from '../const.js';
 
 const COUNT = 5;
 const generateDescription = () => {
-  return DESCRIPTION.split(/\.\s/).sort(() => getRandomBoolean()).join(`.`);
+  return DESCRIPTION.split(/\.\s+/).sort(getRandomBoolean).slice(0, COUNT).join(`.`);
 };
 const destinationDetails = Object.values(Destination).reduce(
     (acc, name) =>
@@ -46,12 +46,11 @@ export const generatePoint = () => {
   const type = getRandomArrayItem(Object.values(PointType));
   return {
     type,
-    destination: getRandomArrayItem(Object.values(Destination)),
     cityOption: getRandomArrayItem(cityOptions),
-    offers:  generateOffers(POINT_OFFERS),
+    offers: generateOffers(POINT_OFFERS),
     price: getRandomInteger(dataOffer.price.MIN, dataOffer.price.MAX),
-    dateStart: getRandomDateTime(),
-    dateEnd: getRandomDateTime()
+    dateStart: getRandomDate(),
+    dateEnd: getRandomDate()
   };
 };
 

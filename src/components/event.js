@@ -1,28 +1,5 @@
-import {castDateTimeFormat} from "../utils";
+import {castDateFormat, calculateTimeInterval, castTimeFormat} from "../utils";
 
-const generateTimeInterval = (dateStart, dateEnd) => {
-  const daysDiff = Math.abs(dateStart.getDay() - dateEnd.getDay());
-  const hoursDiff = Math.abs(dateStart.getHours() - dateEnd.getHours());
-  const minutesDiff = Math.abs(dateStart.getMinutes() - dateEnd.getMinutes());
-
-  let formattedInterval = daysDiff > 0 ? castDateInterval(daysDiff) : ``;
-  if (daysDiff > 0 || hoursDiff > 0) {
-    formattedInterval += ` ${castHoursInterval(hoursDiff)}`;
-  }
-  return formattedInterval + ` ${castMinutesInterval(minutesDiff)}`;
-};
-
-const castDateInterval = (days) => {
-  return days < 10 ? `0${days}D` : `${days}D`;
-};
-
-const castHoursInterval = (hours) => {
-  return hours < 10 ? `0${hours}H` : `${hours}H`;
-};
-
-const castMinutesInterval = (minutes) => {
-  return minutes < 10 ? `0${minutes}M` : `${minutes}M`;
-};
 const generateOffersMarkup = (offers) => {
   return offers.map((offer) => {
     return (
@@ -36,9 +13,7 @@ const generateOffersMarkup = (offers) => {
 };
 export const createEventTemplate = (event) => {
   const {cityOption, type, dateStart, dateEnd, price, offers} = event;
-  const timeInterval = generateTimeInterval(dateStart, dateEnd);
-  const timeStart = castDateTimeFormat(dateStart);
-  const timeEnd = castDateTimeFormat(dateEnd);
+  const timeInterval = calculateTimeInterval(dateStart, dateEnd);
   const offersMarkup = generateOffersMarkup(offers);
   return (
     `<li class="trip-events__item">
@@ -46,12 +21,12 @@ export const createEventTemplate = (event) => {
           <div class="event__type">
             <img class="event__type-icon" width="42" height="42" src="img/icons/${type}.png" alt="Event type icon">
           </div>
-          <h3 class="event__title">${type} ${cityOption.city}</h3>
+          <h3 class="event__title">${type} to ${cityOption.city}</h3>
           <div class="event__schedule">
             <p class="event__time">
-              <time class="event__start-time" datetime="2019-03-18T10:30">${timeStart}</time>
+              <time class="event__start-time" datetime="${castDateFormat(dateStart)}T${castTimeFormat(dateStart)}">${castTimeFormat(dateStart)}</time>
               &mdash;
-              <time class="event__end-time" datetime="2019-03-18T11:00">${timeEnd}</time>
+              <time class="event__end-time" datetime="${castDateFormat(dateEnd)}T${castTimeFormat(dateEnd)}">${castTimeFormat(dateEnd)}</time>
             </p>
             <p class="event__duration">${timeInterval}</p>
           </div>

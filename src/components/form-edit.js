@@ -1,4 +1,4 @@
-import {castDateTimeFormat} from "../utils.js";
+import {formatDate} from "../utils.js";
 import {PLACE_TYPES, TRANSPORT_TYPES, CITIES} from "../const.js";
 
 export const createFormEditTemplate = (event) => {
@@ -8,8 +8,6 @@ export const createFormEditTemplate = (event) => {
       <option value="${city}"></option>
     `;
   };
-  const formattedDateStart = castDateTimeFormat(dateStart);
-  const formattedDateEnd = castDateTimeFormat(dateEnd);
   return `<li class="trip-events__item">
     <form class="event  event--edit" action="#" method="post">
       <header class="event__header">
@@ -49,12 +47,12 @@ export const createFormEditTemplate = (event) => {
       <label class="visually-hidden" for="event-start-time-1">
         From
       </label>
-      <input class="event__input  event__input--time" id="event-start-time-1" type="text" name="event-start-time" value="${formattedDateStart}">
+      <input class="event__input  event__input--time" id="event-start-time-1" type="text" name="event-start-time" value="${formatDate(dateStart)}">
       &mdash;
       <label class="visually-hidden" for="event-end-time-1">
         To
       </label>
-      <input class="event__input  event__input--time" id="event-end-time-1" type="text" name="event-end-time" value="${formattedDateEnd}">
+      <input class="event__input  event__input--time" id="event-end-time-1" type="text" name="event-end-time" value="${formatDate(dateEnd)}">
     </div>
         <div class="event__field-group  event__field-group--price">
           <label class="event__label" for="event-price-1">

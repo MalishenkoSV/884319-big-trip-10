@@ -25,7 +25,6 @@ render(tripInfo, createTripInfoTemplate(eventsData), `afterbegin`);
 render(placeMainControl, createMenuTemplate(), `afterbegin`);
 render(placeMainControl, createFiltersTemplate());
 render(placeEventsTrip, createFormSortTemplate());
-render(placeEventsTrip, createNewEventTemplate());
 render(placeEventsTrip, createDayslistTemplate(eventsData));
 
 const totalElement = tripInfo.querySelector(`.trip-info__cost-value`);

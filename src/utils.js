@@ -1,6 +1,4 @@
 const RANDOM_LIMIT = 0.5;
-const TIME_IN_MS = 60 * 60 * 24 * 1000;
-
 
 export const castDate = (date) => {
   const hours = date.getHours() > 9 ? date.getHours() : `0${date.getHours()}`;
@@ -11,12 +9,26 @@ export const castZeroFirstFormat = (value) => {
   return value < 10 ? `0${value}` : String(value);
 };
 
-export const castDateFormat = (date) => {
-  let yyyy = date.getFullYear();
-  let mm = castZeroFirstFormat(date.getMonth() + 1);
-  let dd = castZeroFirstFormat(date.getDate());
+export const castDateFormat = (dateUnix) => {
+  const date = new Date(dateUnix);
+
+  const yyyy = date.getFullYear();
+  const mm = castZeroFirstFormat(date.getMonth() + 1);
+  const dd = castZeroFirstFormat(date.getDate());
   return `${yyyy}-${mm}-${dd}`;
 };
+export const formatDate = (dateUnix) => {
+  const currentDate = new Date(dateUnix);
+
+  const date = castZeroFirstFormat(currentDate.getDate());
+  const month = castZeroFirstFormat(currentDate.getMonth() + 1);
+  const year = castZeroFirstFormat(currentDate.getFullYear() % 100);
+  const hours = castZeroFirstFormat(currentDate.getHours());
+  const minutes = castZeroFirstFormat(currentDate.getMinutes());
+
+  return `${date}/${month}/${year} ${hours}:${minutes}`;
+};
+
 export const getEndDate = (someDate) => {
   const targetDate = new Date(someDate);
   targetDate.setMilliseconds(getRandomInteger(0, 4) * 60 * 60 * 1000);
@@ -54,10 +66,12 @@ export const getRandomDateTime = () => {
 
   return targetDate;
 };
-export const castTimeFormat = (date) => {
-  const hours = date.getHours();
-  const minutes = date.getMinutes();
-  return `${hours}: ${minutes}`;
+export const castTimeFormat = (dateUnix) => {
+  const date = new Date(dateUnix);
+
+  const hours = castZeroFirstFormat(date.getHours());
+  const minutes = castZeroFirstFormat(date.getMinutes());
+  return `${hours}:${minutes}`;
 };
 
 export const castFirstFormat = (value) => {
@@ -89,8 +103,8 @@ export const castDateTimeFormat = (date) => {
   return `${dd}/${mm}/${yyyy} ${hh}:${ii}`;
 };
 // дата в диапазоне от сегодняшнего
-export const getRandomDateNow = (days) => {
-  return Date.now() + (getRandomInteger(0, (days * 24))) * TIME_IN_MS / 24;
+export const getRandomDate = () => {
+  return Date.now() + 1 + Math.floor(Math.random() * 7) * 24 * getRandomInteger(0, 60) * 60 * 1000;
 };
 
 
@@ -105,4 +119,30 @@ const shuffleArray = (array) => {
 export const getShuffledSubarray = (array, numberOfElements) => {
   const shuffledArr = shuffleArray(array);
   return shuffledArr.slice(0, numberOfElements);
+};
+export const calculateTimeInterval = (time1, time2) => {
+  const startDate = new Date(time1);
+  const endDate = new Date(time2);
+
+  const daysInt = Math.abs(endDate.getDay() - startDate.getDay());
+  const hoursInt = Math.abs(endDate.getHours() - startDate.getHours());
+  const minutesInt = Math.abs(endDate.getMinutes() - startDate.getMinutes());
+
+  let formattedInt = daysInt > 0 ? castDateInterval(daysInt) : ``;
+  if (daysInt > 0 || hoursInt > 0) {
+    formattedInt += ` ${castHoursInterval(hoursInt)}`;
+  }
+  return formattedInt + ` ${castMinutesInterval(minutesInt)}`;
+};
+
+const castDateInterval = (days) => {
+  return days < 10 ? `0${days}D` : `${days}D`;
+};
+
+const castHoursInterval = (hours) => {
+  return hours < 10 ? `0${hours}H` : `${hours}H`;
+};
+
+const castMinutesInterval = (minutes) => {
+  return minutes < 10 ? `0${minutes}M` : `${minutes}M`;
 };
