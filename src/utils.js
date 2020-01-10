@@ -35,6 +35,14 @@ export const getRandomArrayItem = (array) => array[getRandomInteger(array.length
 export const getRandomBoolean = () => {
   return Math.random() > RANDOM_LIMIT;
 };
+export const getRandomArray = (min, max, array) => {
+  const newArray = [];
+  const newArrayLength = getRandomInteger(min, max);
+  for (let i = 0; i < newArrayLength; i++) {
+    newArray.push(getRandomInteger(array));
+  }
+  return newArray;
+};
 export const getRandomDateTime = () => {
   const targetDate = new Date();
   const sing = getRandomBoolean ? 1 : -1;
@@ -46,16 +54,21 @@ export const getRandomDateTime = () => {
 
   return targetDate;
 };
-const castTimeFormat = (value) => {
-  return value < 10 ? `0${value}` : String(value);
+export const castTimeFormat = (date) => {
+  const hours = date.getHours();
+  const minutes = date.getMinutes();
+  return `${hours}: ${minutes}`;
 };
 
+export const castFirstFormat = (value) => {
+  return value < 10 ? `0${value}` : String(value);
+};
 export const formatTime = (date) => {
-  const day = castTimeFormat(date.getDate());
-  const month = castTimeFormat(date.getMonth() + 1);
+  const day = castFirstFormat(date.getDate());
+  const month = castFirstFormat(date.getMonth() + 1);
   const year = String(date.getFullYear()).slice(2);
-  const hours = castTimeFormat(date.getHours());
-  const minutes = castTimeFormat(date.getMinutes());
+  const hours = castFirstFormat(date.getHours());
+  const minutes = castFirstFormat(date.getMinutes());
   return `${day}/${month}/${year} ${hours}:${minutes}`;
 };
 export const getDuration = (n) => {
@@ -67,14 +80,13 @@ export const getDuration = (n) => {
 };
 
 export const castDateTimeFormat = (date) => {
-  date = new Date();
-  let yy = date.getFullYear();
+  let yyyy = date.getFullYear();
   let mm = castZeroFirstFormat(date.getMonth() + 1);
   let dd = castZeroFirstFormat(date.getDate());
   let hh = castZeroFirstFormat(date.getHours());
   let ii = castZeroFirstFormat(date.getMinutes());
 
-  return `${dd}/${mm}/${yy} ${hh}:${ii}`;
+  return `${dd}/${mm}/${yyyy} ${hh}:${ii}`;
 };
 // дата в диапазоне от сегодняшнего
 export const getRandomDateNow = (days) => {

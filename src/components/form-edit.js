@@ -1,26 +1,15 @@
 import {castDateTimeFormat} from "../utils.js";
-import {OFFER_OPTIONS, TYPES_OF_ACTIVITY, TYPES_OF_TRANSFERS, CITIES} from "../const.js";
+import {PLACE_TYPES, TRANSPORT_TYPES, CITIES} from "../const.js";
 
-const generateOffersMarkup = (offers) => {
-  return offers.map((offer) => {
-    const {title, type, price} = offer;
-    return (
-      `<div class="event__offer-selector">
-       <input class="event__offer-checkbox  visually-hidden" id="event-offer-${type}-1" type="checkbox" name="event-offer-${type}" ${OFFER_OPTIONS.some((acceptedOffer) => acceptedOffer.type === type) ? `checked` : ``}>
-       <label class="event__offer-label" for="event-offer-${type}-1">
-         <span class="event__offer-title">${title}</span>
-          &plus;
-          &euro;&nbsp;<span class="event__offer-price">${price}</span>
-        </label>
-      </div>`
-    );
-  }).join(`\n`);
-};
 export const createFormEditTemplate = (event) => {
   const {type, dateStart, dateEnd, price, offers} = event;
+  const getCity = (city) => {
+    return `
+      <option value="${city}"></option>
+    `;
+  };
   const formattedDateStart = castDateTimeFormat(dateStart);
   const formattedDateEnd = castDateTimeFormat(dateEnd);
-  const offersMarkup = generateOffersMarkup(OFFER_OPTIONS, offers);
   return `<li class="trip-events__item">
     <form class="event  event--edit" action="#" method="post">
       <header class="event__header">
@@ -33,14 +22,14 @@ export const createFormEditTemplate = (event) => {
           <div class="event__type-list">
           <fieldset class="event__type-group">
           <legend class="visually-hidden">Transfer</legend>
-          ${TYPES_OF_TRANSFERS.map((transferType) => `<div class="event__type-item">
+          ${TRANSPORT_TYPES.map((transferType) => `<div class="event__type-item">
           <input id="event-type-${transferType.split(` `)[0].toLowerCase()}-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="${transferType.split(` `)[0].toLowerCase()}">
           <label class="event__type-label  event__type-label--${transferType.split(` `)[0].toLowerCase()}" for="event-type-${transferType.split(` `)[0].toLowerCase()}-1">${transferType.split(` `)[0]}</label>
         </div>`).join(``)}
         </fieldset>
         <fieldset class="event__type-group">
           <legend class="visually-hidden">Activity</legend>
-          ${TYPES_OF_ACTIVITY.map((activityType) => `<div class="event__type-item">
+          ${PLACE_TYPES.map((activityType) => `<div class="event__type-item">
           <input id="event-type-${activityType.split(` `)[0].toLowerCase()}-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="${activityType.split(` `)[0].toLowerCase()}">
           <label class="event__type-label  event__type-label--${activityType.split(` `)[0].toLowerCase()}" for="event-type-${activityType.split(` `)[0].toLowerCase()}-1">${activityType.split(` `)[0]}</label>
         </div>`).join(``)}
@@ -49,11 +38,11 @@ export const createFormEditTemplate = (event) => {
         </div>
         <div class="event__field-group  event__field-group--destination">
         <label class="event__label  event__type-output" for="event-destination-1">
-          ${type}
+        ${type} to
         </label>
         <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="${event.cityOption.city}" list="destination-list-1">
         <datalist id="destination-list-1">
-        ${CITIES.map((CITY) => `<option value="${CITY}"></option>`)}
+        ${CITIES.map((item) => getCity(item)).join(``)}
         </datalist>
       </div>
       <div class="event__field-group  event__field-group--time">
@@ -91,7 +80,18 @@ export const createFormEditTemplate = (event) => {
         <section class="event__section  event__section--offers">
           <h3 class="event__section-title  event__section-title--offers">Offers</h3>
           <div class="event__available-offers">
-          ${offersMarkup}
+    ${offers.map(({type: offerType, price: offerPrice, title, isChecked}) => {
+    return (
+      `<div class="event__offer-selector">
+                <input class="event__offer-checkbox  visually-hidden" id="event-offer-${offerType}-1" type="checkbox" name="event-offer-${offerType}" ${isChecked ? `checked` : ``}>
+                <label class="event__offer-label" for="event-offer-${offerType}-1">
+                  <span class="event__offer-title">${title}</span>
+                  &plus;
+                  &euro;&nbsp;<span class="event__offer-price">${offerPrice}</span>
+                </label>
+              </div>`
+    );
+  }).join(`\n`)}
           </div>
         </section>
         <section class="event__section  event__section--destination">

@@ -1,11 +1,24 @@
 import {getRandomInteger, getRandomBoolean, getRandomDateTime, getRandomArrayItem} from '../utils.js';
 import {dataOffer} from '../data.js';
-import {CITIES, DESCRIPTIONS, OFFER_OPTIONS, TYPES_OF_ACTIVITY, TYPES_OF_TRANSFERS} from '../const.js';
+import {POINT_OFFERS, PointType, Destination, DESCRIPTION, CITIES} from '../const.js';
 
 const COUNT = 5;
 const generateDescription = () => {
-  return DESCRIPTIONS.split(/\.\s/).sort(() => getRandomBoolean()).join(`.`);
+  return DESCRIPTION.split(/\.\s/).sort(() => getRandomBoolean()).join(`.`);
 };
+const destinationDetails = Object.values(Destination).reduce(
+    (acc, name) =>
+      Object.assign(acc, {
+        [name]: {
+          description: generateDescription(),
+          photos: new Array(getRandomInteger(COUNT, 1)).fill(``).map(() => ({
+            src: `http://picsum.photos/300/150?r=${Math.random()}`,
+            description: getRandomArrayItem(DESCRIPTION.split(/\.\s+/))
+          }))
+        }
+      }),
+    {}
+);
 export const generateCityOption = () => {
   return {
     city: getRandomArrayItem(CITIES),
@@ -20,17 +33,25 @@ const generateCityOptions = () => {
 };
 
 export const cityOptions = generateCityOptions(COUNT);
+const generateOffers = (offers) => {
+  offers.forEach((offer) => {
+    offer.isChecked = getRandomBoolean;
+  });
+
+  return offers
+    .filter(({isChecked}) => isChecked)
+    .slice(dataOffer.offer.MIN, dataOffer.offer.MAX);
+};
 export const generatePoint = () => {
-  const dates = [getRandomDateTime(), getRandomDateTime()];
-  dates.sort((a, b) => a.getTime() - b.getTime());
+  const type = getRandomArrayItem(Object.values(PointType));
   return {
-    type: getRandomArrayItem(getRandomBoolean ? TYPES_OF_TRANSFERS : TYPES_OF_ACTIVITY),
+    type,
+    destination: getRandomArrayItem(Object.values(Destination)),
     cityOption: getRandomArrayItem(cityOptions),
-    offers: new Set(getRandomArrayItem(0, 2, OFFER_OPTIONS)),
+    offers:  generateOffers(POINT_OFFERS),
     price: getRandomInteger(dataOffer.price.MIN, dataOffer.price.MAX),
-    dateStart: dates[0],
-    dateEnd: dates[1],
-    duration: dates[1] - dates[0]
+    dateStart: getRandomDateTime(),
+    dateEnd: getRandomDateTime()
   };
 };
 
@@ -41,9 +62,3 @@ export const generatePoints = (count) => {
 export const getUniqDates = (eventsData) => {
   return Array.from(new Set(eventsData.map((eventData) => eventData.date)));
 };
-// // массив со всеми эвентами
-
-// export const getEventsData = (count) => {
-//   const events = new Array(count);
-//   return events.fill(``).map(generatePoint).sort((a, b) => a.start - b.start);
-// };

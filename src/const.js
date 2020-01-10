@@ -1,51 +1,80 @@
+import {getRandomInteger, getRandomArrayItem, getRandomBoolean} from './utils.js';
+
 export const CITIES = [`Moscow`, `Tokyo`, `Paris`, `Melbourne`, `Sydney`, `Berlin`];
 export const FILTERS_NAMES = [`Everything`, `Future`, `Past`];
-export const OFFER_OPTIONS = [
-  {"type": `luggage`, "name": `Add luggage`, "price": 30},
-  {"type": `comfort`, "name": `Switch to comfort`, "price": 100},
-  {"type": `meal`, "name": `Lunch in city`, "price": 35},
-  {"type": `meal`, "name": `Add breakfast`, "price": 15},
-  {"type": `seats`, "name": `Choose seats`, "price": 5},
-  {"type": `meal`, "name": `Add meal`, "price": 15},
-  {"type": `train`, "name": `Travel by train`, "price": 50},
+export const POINT_OFFERS = [
+  {type: `luggage`, title: `Add luggage`, price: 10, isChecked: getRandomBoolean()},
+  {type: `comfort`, title: `Switch to comfort class`, price: 150, isChecked: getRandomBoolean()},
+  {type: `meal`, title: `Add meal`, price: 2, isChecked: getRandomBoolean()},
+  {type: `seats`, title: `Choose seats`, price: 9, isChecked: getRandomBoolean()},
+  {type: `train`, title: `Travel by train`, price: 40, isChecked: getRandomBoolean()}
+];
+export const OfferType = {
+  BUSINESS: `business`,
+  RADIO: `radio`,
+  TEMPERATURE: `temperature`,
+  QUICKLY: `quickly`,
+  SLOWLY: `slowly`,
+  INFO: `infotainment`,
+  MEAL: `meal`,
+  SEATS: `seats`,
+  TAXI: `taxi`,
+  BREAKFAST: `breakfast`,
+  WAKE: `wake`,
+  COMFORT: `comfort`,
+  LUGGAGE: `luggage`,
+  LOUNGE: `lounge`
+};
+
+export const PointType = {
+  TAXI: `taxi`,
+  BUS: `bus`,
+  TRAIN: `train`,
+  SHIP: `ship`,
+  TRANSPORT: `transport`,
+  DRIVE: `drive`,
+  FLIGHT: `flight`,
+  CHECK_IN: `check-in`,
+  SIGHTSEEING: `sightseeing`,
+  RESTAURANT: `restaurant`
+};
+
+const Suffix = {
+  TRANSPORT: `to`,
+  PLACE: `in`
+};
+
+export const TRANSPORT_TYPES = [
+  PointType.TAXI,
+  PointType.BUS,
+  PointType.TRAIN,
+  PointType.SHIP,
+  PointType.TRANSPORT,
+  PointType.DRIVE,
+  PointType.FLIGHT
 ];
 
+export const PLACE_TYPES = [
+  PointType.CHECK_IN,
+  PointType.SIGHTSEEING,
+  PointType.RESTAURANT
+];
 
-export const menuValues = [
-  {
-    title: `Table`,
-    active: true
-  },
-  {
-    title: `Stats`,
-    active: false
-  },
-];
-export const TYPES_OF_TRANSFERS = [
-  `Bus`,
-  `Drive`,
-  `Flight`,
-  `Ship`,
-  `Taxi`,
-  `Train`,
-  `Transport`
-];
-export const TYPES_OF_TRANSFERS_TO = [
-  `Bus to`,
-  `Drive to`,
-  `Flight to`,
-  `Ship to`,
-  `Taxi to`,
-  `Train to`,
-  `Transport to`
-];
-export const TYPES_OF_ACTIVITY = [
-  `Check-in in`,
-  `Restaurant in`,
-  `Sightseeing in`,
-];
-export const TYPES_OF_EVENT = TYPES_OF_TRANSFERS_TO.concat(TYPES_OF_ACTIVITY);
-export const DESCRIPTIONS =
+const generateTypesMap = (types, suffix) =>
+  types.reduce((acc, type) => Object.assign(acc, {[type]: suffix}), {});
+
+export const suffixForPoint = Object.assign(
+    generateTypesMap(TRANSPORT_TYPES, Suffix.TRANSPORT),
+    generateTypesMap(PLACE_TYPES, Suffix.PLACE)
+);
+
+export const Destination = {
+  CHAMONIX: `Chamonix`,
+  GENEVA: `Geneva`,
+  AMSTERDAM: `Amsterdam`
+};
+
+export const DESCRIPTION =
   `Lorem ipsum dolor sit amet, consectetur adipiscing elit.
   Cras aliquet varius magna, non porta ligula feugiat eget.
   Fusce tristique felis at fermentum pharetra.
@@ -57,6 +86,16 @@ export const DESCRIPTIONS =
   Aliquam erat volutpat.
   Nunc fermentum tortor ac porta dapibus.
   In rutrum ac purus sit amet tempus.`;
+export const Offer = Object.values(OfferType).reduce(
+    (acc, type) =>
+      Object.assign(acc, {
+        [type]: {
+          title: getRandomArrayItem(DESCRIPTION.split(/\.\s+/)),
+          price: getRandomInteger(100, 30)
+        }
+      }),
+    {}
+);
 export const MONTH_NAMES = [
   `January`,
   `February`,
