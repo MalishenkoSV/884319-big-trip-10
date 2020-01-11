@@ -2,8 +2,8 @@ import {createTripDayTemplate} from "./day.js";
 import {castDateFormat} from "../utils";
 
 
-const generateDaysMarkup = (days, events, dayIndex) => {
-  return Array.from(days).map((day) => {
+const generateDaysMarkup = (days, events) => {
+  return Array.from(days).map((day, dayIndex) => {
     const dayEvents = events.filter((event) => castDateFormat(event.dateStart) === day);
     return createTripDayTemplate(day, dayEvents, dayIndex);
   }).join(`\n`);

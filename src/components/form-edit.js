@@ -1,5 +1,5 @@
 import {formatDate} from "../utils.js";
-import {PLACE_TYPES, TRANSPORT_TYPES, CITIES} from "../const.js";
+import {PLACE_TYPES, eventPointTypes, CITIES, suffixForPoint} from "../const.js";
 
 export const createFormEditTemplate = (event) => {
   const {type, dateStart, dateEnd, price, offers} = event;
@@ -14,29 +14,33 @@ export const createFormEditTemplate = (event) => {
         <div class="event__type-wrapper">
           <label class="event__type  event__type-btn" for="event-type-toggle-1">
             <span class="visually-hidden">Choose event type</span>
-            <img class="event__type-icon" width="17" height="17" src="img/icons/${type}.png" alt="Event type icon">
+            <img class="event__type-icon" width="17" height="17" src="img/icons/${type.type}.png" alt="Event type icon">
           </label>
           <input class="event__type-toggle  visually-hidden" id="event-type-toggle-1" type="checkbox">
           <div class="event__type-list">
-          <fieldset class="event__type-group">
-          <legend class="visually-hidden">Transfer</legend>
-          ${TRANSPORT_TYPES.map((transferType) => `<div class="event__type-item">
-          <input id="event-type-${transferType.split(` `)[0].toLowerCase()}-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="${transferType.split(` `)[0].toLowerCase()}">
-          <label class="event__type-label  event__type-label--${transferType.split(` `)[0].toLowerCase()}" for="event-type-${transferType.split(` `)[0].toLowerCase()}-1">${transferType.split(` `)[0]}</label>
-        </div>`).join(``)}
-        </fieldset>
-        <fieldset class="event__type-group">
-          <legend class="visually-hidden">Activity</legend>
-          ${PLACE_TYPES.map((activityType) => `<div class="event__type-item">
-          <input id="event-type-${activityType.split(` `)[0].toLowerCase()}-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="${activityType.split(` `)[0].toLowerCase()}">
-          <label class="event__type-label  event__type-label--${activityType.split(` `)[0].toLowerCase()}" for="event-type-${activityType.split(` `)[0].toLowerCase()}-1">${activityType.split(` `)[0]}</label>
-        </div>`).join(``)}
-        </fieldset>
+          ${Array.from(new Set(eventPointTypes.map((pointTypes) => pointTypes.group)))
+            .map((element) => {
+              return (
+                `<fieldset class="event__type-group">
+                  <legend class="visually-hidden">${element}</legend>
+
+                  ${eventPointTypes.filter((eventType) => eventType.group === element)
+                    .map(({}) => {
+                      return (
+                        `<div class="event__type-item">
+                          <input id="event-type-${type}-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="${type}">
+                          <label class="event__type-label  event__type-label--${type}" for="event-type-${type}-1">${type}</label>
+                        </div>`
+                      );
+                    }).join(`\n`)}
+                  </fieldset>`
+              );
+            }).join(`\n`)}
           </div>
         </div>
         <div class="event__field-group  event__field-group--destination">
         <label class="event__label  event__type-output" for="event-destination-1">
-        ${type} to
+        ${type.type} ${suffixForPoint[event.type.type]}
         </label>
         <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="${event.cityOption.city}" list="destination-list-1">
         <datalist id="destination-list-1">

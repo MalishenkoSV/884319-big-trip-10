@@ -1,4 +1,5 @@
 import {castDateFormat, calculateTimeInterval, castTimeFormat} from "../utils";
+import {suffixForPoint} from "../const.js";
 
 const generateOffersMarkup = (offers) => {
   return offers.map((offer) => {
@@ -19,9 +20,9 @@ export const createEventTemplate = (event) => {
     `<li class="trip-events__item">
         <div class="event">
           <div class="event__type">
-            <img class="event__type-icon" width="42" height="42" src="img/icons/${type}.png" alt="Event type icon">
+            <img class="event__type-icon" width="42" height="42" src="img/icons/${type.type}.png" alt="Event type icon">
           </div>
-          <h3 class="event__title">${type} to ${cityOption.city}</h3>
+          <h3 class="event__title">${type.type} ${suffixForPoint[event.type.type]} ${cityOption.city}</h3>
           <div class="event__schedule">
             <p class="event__time">
               <time class="event__start-time" datetime="${castDateFormat(dateStart)}T${castTimeFormat(dateStart)}">${castTimeFormat(dateStart)}</time>
