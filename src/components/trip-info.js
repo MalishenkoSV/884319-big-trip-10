@@ -1,4 +1,4 @@
-import {MONTH_NAMES, Destination} from "../const.js";
+import {MONTH_NAMES} from "../const.js";
 
 export const getCities = (events) => {
   const cities = events.map((event) => event.cityOption.city);
@@ -18,7 +18,7 @@ export const getCities = (events) => {
 export const createTripInfoTemplate = (events) => {
   // events.sort((a, b) => a.dateStart.getTime() - b.dateStart.getTime());
   const cities = Array.from(getCities(events));
-  const title = Destination > 3 ? `${cities.shift()} &mdash; ... &mdash; ${cities.pop()}` : cities.join(` &mdash; `);
+  const title = cities.size > 3 ? `${cities.shift()} &mdash; ... &mdash; ${cities.pop()}` : cities.join(` &mdash; `);
   const startRouteDate = new Date(events[0].dateStart);
   const endRouteDate = new Date(events[events.length - 1].dateStart);
 
