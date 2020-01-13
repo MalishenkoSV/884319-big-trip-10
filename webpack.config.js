@@ -11,7 +11,6 @@ module.exports = {
   devtool: 'source-map',
   devServer: {
     contentBase: pathPublick,// Где искать сборку index.html
-    publicPath: 'http://localhost:8080/', // Веб адрес сборки
     hot: true, // Автоматическая перезагрузка страницы
     compress: true, // Сжатие
     watchContentBase: true,
