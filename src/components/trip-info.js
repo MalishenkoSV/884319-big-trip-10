@@ -8,7 +8,7 @@ export const getCities = (events) => {
 
 export const createTripInfoTemplate = (events) => {
   const cities = Array.from(getCities(events));
-  const title = cities.size > 3 ? `${cities.shift()} &mdash; ... &mdash; ${cities.pop()}` : cities.join(` &mdash; `);
+  const title = cities.length > 3 ? `${cities.shift()} &mdash; ... &mdash; ${cities.pop()}` : cities.join(` &mdash; `);
   const startRouteDate = new Date(events[0].dateStart);
   const endRouteDate = new Date(events[events.length - 1].dateStart);
 

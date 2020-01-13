@@ -1,8 +1,8 @@
 import {castDateFormat, calculateTimeInterval, castTimeFormat} from "../utils";
-import {suffixForPoint} from "../const.js";
+import {suffixForPoint, Offer} from "../const.js";
 
 const generateOffersMarkup = (offers) => {
-  return offers.map(({title, price: offerPrice}) => {
+  return offers.map((type) => Offer[type]).map(({title, price: offerPrice}) => {
     return (
       `<li class="event__offer">
       <span class="event__offer-title">${title}</span>
@@ -13,16 +13,16 @@ const generateOffersMarkup = (offers) => {
   }).join(`\n`);
 };
 export const createEventTemplate = (event) => {
-  const {cityOption, type, dateStart, dateEnd, price, offers} = event;
+  const {cityOption, dateStart, dateEnd, price, offers} = event;
   const timeInterval = calculateTimeInterval(dateStart, dateEnd);
   const offersMarkup = generateOffersMarkup(offers);
   return (
     `<li class="trip-events__item">
         <div class="event">
           <div class="event__type">
-            <img class="event__type-icon" width="42" height="42" src="img/icons/${type}.png" alt="Event type icon">
+            <img class="event__type-icon" width="42" height="42" src="img/icons/${event.type}.png" alt="Event type icon">
           </div>
-          <h3 class="event__title">${type} ${suffixForPoint[event.type]} ${cityOption.city}</h3>
+          <h3 class="event__title">${event.type} ${suffixForPoint[event.type]} ${cityOption.city}</h3>
           <div class="event__schedule">
             <p class="event__time">
               <time class="event__start-time" datetime="${castDateFormat(dateStart)}T${castTimeFormat(dateStart)}">${castTimeFormat(dateStart)}</time>

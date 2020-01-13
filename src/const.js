@@ -94,7 +94,7 @@ export const destinationDetails = Object.values(Destination).reduce(
       }),
     {}
 );
-const Offer = Object.values(OfferType).reduce(
+export const Offer = Object.values(OfferType).reduce(
     (acc, type) =>
       Object.assign(acc, {
         [type]: {
