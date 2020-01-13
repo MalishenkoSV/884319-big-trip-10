@@ -69,20 +69,6 @@ export const DESCRIPTION =
   In rutrum ac purus sit amet tempus.`;
 
 
-export const eventPointTypes = [
-  {type: `bus`, isChecked: false, group: `Transfer`},
-  {type: `check-in`, isChecked: false, group: `Activity`},
-  {type: `drive`, isChecked: false, group: `Transfer`},
-  {type: `flight`, isChecked: false, group: `Transfer`},
-  {type: `restaurant`, isChecked: false, group: `Activity`},
-  {type: `ship`, isChecked: false, group: `Transfer`},
-  {type: `sightseeing`, isChecked: true, group: `Activity`},
-  {type: `taxi`, isChecked: false, group: `Transfer`},
-  {type: `train`, isChecked: false, group: `Transfer`},
-  {type: `transport`, isChecked: false, group: `Transfer`},
-  {type: `trip`, isChecked: false, group: `Transfer`}
-];
-
 export const OfferType = {
   MEAL: `meal`,
   SEATS: `seats`,
@@ -156,20 +142,3 @@ export const offersForEvent = Object.values(EventType).reduce(
       }),
     {}
 );
-export const generateOfferList = () => {
-  const set = new Set();
-  const offerCount = getRandomInteger(2);
-  const offerTypes = Object.values(OfferType);
-
-  for (let i = 0; i < offerCount; i++) {
-    set.add(getRandomArrayItem(offerTypes));
-
-  }
-
-  const offers = [];
-  set.forEach((item) => {
-    offers.push({type: item, checked: getRandomBoolean(), cost: getRandomInteger(200)});
-  });
-
-  return offers;
-};

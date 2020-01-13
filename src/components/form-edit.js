@@ -1,5 +1,5 @@
 import {formatDate} from "../utils.js";
-import {OfferTypeOptions, eventPointTypes, CITIES, suffixForPoint, OfferType} from "../const.js";
+import {TRANSPORT_TYPES, PLACE_TYPES, CITIES, suffixForPoint} from "../const.js";
 
 export const createFormEditTemplate = (event) => {
   const {type, dateStart, dateEnd, price, offers} = event;
@@ -14,33 +14,26 @@ export const createFormEditTemplate = (event) => {
         <div class="event__type-wrapper">
           <label class="event__type  event__type-btn" for="event-type-toggle-1">
             <span class="visually-hidden">Choose event type</span>
-            <img class="event__type-icon" width="17" height="17" src="img/icons/${type.type}.png" alt="Event type icon">
+            <img class="event__type-icon" width="17" height="17" src="img/icons/${type}.png" alt="Event type icon">
           </label>
           <input class="event__type-toggle  visually-hidden" id="event-type-toggle-1" type="checkbox">
           <div class="event__type-list">
-          ${Array.from(new Set(eventPointTypes.map((pointTypes) => pointTypes.group)))
-            .map((element) => {
-              return (
-                `<fieldset class="event__type-group">
-                  <legend class="visually-hidden">${element}</legend>
-
-                  ${eventPointTypes.filter((eventType) => eventType.group === element)
-                    .map(({type: offerType}) => {
-                      return (
-                        `<div class="event__type-item">
-                          <input id="event-type-${offerType}-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="${offerType}">
-                          <label class="event__type-label  event__type-label--${offerType}" for="event-type-${offerType}-1">${offerType}</label>
-                        </div>`
-                      );
-                    }).join(`\n`)}
-                  </fieldset>`
-              );
-            }).join(`\n`)}
+          ${TRANSPORT_TYPES.map((transferType) => `<div class="event__type-item">
+      <input id="event-type-${transferType.split(` `)[0].toLowerCase()}-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="${transferType.split(` `)[0].toLowerCase()}">
+      <label class="event__type-label  event__type-label--${transferType.split(` `)[0].toLowerCase()}" for="event-type-${transferType.split(` `)[0].toLowerCase()}-1">${transferType.split(` `)[0]}</label>
+    </div>`).join(``)}
+    </fieldset>
+    <fieldset class="event__type-group">
+      <legend class="visually-hidden">Activity</legend>
+      ${PLACE_TYPES.map((activityType) => `<div class="event__type-item">
+      <input id="event-type-${activityType.split(` `)[0].toLowerCase()}-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="${activityType.split(` `)[0].toLowerCase()}">
+      <label class="event__type-label  event__type-label--${activityType.split(` `)[0].toLowerCase()}" for="event-type-${activityType.split(` `)[0].toLowerCase()}-1">${activityType.split(` `)[0]}</label>
+    </div>`).join(``)}
           </div>
         </div>
         <div class="event__field-group  event__field-group--destination">
         <label class="event__label  event__type-output" for="event-destination-1">
-        ${type.type} ${suffixForPoint[event.type.type]}
+        ${type} ${suffixForPoint[event.type]}
         </label>
         <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="${event.cityOption.city}" list="destination-list-1">
         <datalist id="destination-list-1">
@@ -85,7 +78,7 @@ export const createFormEditTemplate = (event) => {
     ${offers.map(({type: offerType, price: offerPrice, title, isChecked}) => {
     return (
       `<div class="event__offer-selector">
-                <input class="event__offer-checkbox  visually-hidden" id="event-offer-${offerType}-1" type="checkbox" name="event-offer-${OfferType}" ${isChecked ? `checked` : ``}>
+                <input class="event__offer-checkbox  visually-hidden" id="event-offer-${offerType}-1" type="checkbox" name="event-offer-${offerType}" ${isChecked ? `checked` : ``}>
                 <label class="event__offer-label" for="event-offer-${offerType}-1">
                   <span class="event__offer-title">${title}</span>
                   &plus;
