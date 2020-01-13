@@ -5,18 +5,8 @@ export const getCities = (events) => {
   return new Set(cities);
 };
 
-// const getDuration = (events) => {
-//   const dateStart = events[0].dateStart;
-//   const dateFinish = events[events.length - 1].dateStart;
-//   const duration = `${MONTH_NAMES[dateStart.getMonth()]}
-//    ${dateStart.getDate()} &mdash;${(dateStart.getMonth() === dateFinish.getMonth()) ? `` : MONTH_NAMES[dateFinish.getMonth()]}
-//    ${dateFinish.getDate()}`;
-//   return duration;
-// };
-
 
 export const createTripInfoTemplate = (events) => {
-  // events.sort((a, b) => a.dateStart.getTime() - b.dateStart.getTime());
   const cities = Array.from(getCities(events));
   const title = cities.size > 3 ? `${cities.shift()} &mdash; ... &mdash; ${cities.pop()}` : cities.join(` &mdash; `);
   const startRouteDate = new Date(events[0].dateStart);

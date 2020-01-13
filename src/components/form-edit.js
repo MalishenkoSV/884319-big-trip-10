@@ -1,5 +1,5 @@
 import {formatDate} from "../utils.js";
-import {PLACE_TYPES, eventPointTypes, CITIES, suffixForPoint} from "../const.js";
+import {OfferTypeOptions, eventPointTypes, CITIES, suffixForPoint, OfferType} from "../const.js";
 
 export const createFormEditTemplate = (event) => {
   const {type, dateStart, dateEnd, price, offers} = event;
@@ -25,11 +25,11 @@ export const createFormEditTemplate = (event) => {
                   <legend class="visually-hidden">${element}</legend>
 
                   ${eventPointTypes.filter((eventType) => eventType.group === element)
-                    .map(({}) => {
+                    .map(({type: offerType}) => {
                       return (
                         `<div class="event__type-item">
-                          <input id="event-type-${type}-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="${type}">
-                          <label class="event__type-label  event__type-label--${type}" for="event-type-${type}-1">${type}</label>
+                          <input id="event-type-${offerType}-1" class="event__type-input  visually-hidden" type="radio" name="event-type" value="${offerType}">
+                          <label class="event__type-label  event__type-label--${offerType}" for="event-type-${offerType}-1">${offerType}</label>
                         </div>`
                       );
                     }).join(`\n`)}
@@ -85,7 +85,7 @@ export const createFormEditTemplate = (event) => {
     ${offers.map(({type: offerType, price: offerPrice, title, isChecked}) => {
     return (
       `<div class="event__offer-selector">
-                <input class="event__offer-checkbox  visually-hidden" id="event-offer-${offerType}-1" type="checkbox" name="event-offer-${offerType}" ${isChecked ? `checked` : ``}>
+                <input class="event__offer-checkbox  visually-hidden" id="event-offer-${offerType}-1" type="checkbox" name="event-offer-${OfferType}" ${isChecked ? `checked` : ``}>
                 <label class="event__offer-label" for="event-offer-${offerType}-1">
                   <span class="event__offer-title">${title}</span>
                   &plus;

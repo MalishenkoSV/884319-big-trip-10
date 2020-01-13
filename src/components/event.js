@@ -2,12 +2,12 @@ import {castDateFormat, calculateTimeInterval, castTimeFormat} from "../utils";
 import {suffixForPoint} from "../const.js";
 
 const generateOffersMarkup = (offers) => {
-  return offers.map((offer) => {
+  return offers.map(({title, price: offerPrice}) => {
     return (
       `<li class="event__offer">
-      <span class="event__offer-title">${offer.title}</span>
+      <span class="event__offer-title">${title}</span>
         &plus;
-       &euro;&nbsp;<span class="event__offer-price">${offer.price}</span>
+       &euro;&nbsp;<span class="event__offer-price">${offerPrice}</span>
   </li>`
     );
   }).join(`\n`);

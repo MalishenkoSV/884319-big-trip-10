@@ -1,6 +1,6 @@
-import {getRandomInteger, getRandomBoolean, getRandomDate, getRandomArrayItem} from '../utils.js';
+import {getRandomInteger, getRandomDate, getRandomArrayItem} from '../utils.js';
 import {dataOffer} from '../data.js';
-import {eventPointTypes, generateDescription, CITIES, POINT_OFFERS} from '../const.js';
+import {eventPointTypes, generateDescription, CITIES, offersForEvent} from '../const.js';
 
 const COUNT = 5;
 const cityOptions = CITIES.map((CITY) => {
@@ -13,28 +13,17 @@ const cityOptions = CITIES.map((CITY) => {
 
 });
 
-const generateOffers = (offers) => {
-  offers.forEach((offer) => {
-    offer.isChecked = getRandomBoolean;
-  });
-
-  return offers
-    .filter(({isChecked}) => isChecked)
-    .slice(dataOffer.offer.MIN, dataOffer.offer.MAX);
-};
-
 
 export const generatePoint = () => {
   const cityOption = getRandomArrayItem(cityOptions);
-  const offers = generateOffers(POINT_OFFERS);
   const dateStart = getRandomDate();
   const residual = getRandomInteger(20, 180) * 60 * 1000;
   const type = getRandomArrayItem(eventPointTypes);
   return {
     type,
     cityOption,
-    offers,
-    price: getRandomInteger(dataOffer.price.MIN, dataOffer.price.MAX),
+    offers: offersForEvent[type].slice(0, getRandomInteger(COUNT)),
+    price: getRandomInteger(dataOffer.price.MAX, dataOffer.price.MIN),
     dateStart,
     dateEnd: dateStart + residual
   };

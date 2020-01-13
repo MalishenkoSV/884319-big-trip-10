@@ -5,7 +5,7 @@ import {createFiltersTemplate} from './components/filter.js';
 import {createTripInfoTemplate} from './components/trip-info.js';
 import {createFormSortTemplate} from './components/form-sort.js';
 import {createDayslistTemplate} from './components/days-list.js';
-import {createNewEventTemplate} from './components/add-event.js';
+// import {createNewEventTemplate} from './components/add-event.js';
 import {generatePoints} from './mock/data-event.js';
 
 

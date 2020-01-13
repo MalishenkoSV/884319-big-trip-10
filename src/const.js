@@ -1,27 +1,11 @@
 import {getRandomInteger, getRandomArrayItem, getRandomBoolean} from './utils.js';
 
 const COUNT = 5;
-const COUNT_OFFER = 2;
 export const CITIES = [`Moscow`, `Tokyo`, `Paris`, `Melbourne`, `Sydney`, `Berlin`];
 export const FILTERS_NAMES = [`Everything`, `Future`, `Past`];
-export const OfferType = {
-  BUSINESS: `business`,
-  RADIO: `radio`,
-  TEMPERATURE: `temperature`,
-  QUICKLY: `quickly`,
-  SLOWLY: `slowly`,
-  INFO: `infotainment`,
-  MEAL: `meal`,
-  SEATS: `seats`,
-  TAXI: `taxi`,
-  BREAKFAST: `breakfast`,
-  WAKE: `wake`,
-  COMFORT: `comfort`,
-  LUGGAGE: `luggage`,
-  LOUNGE: `lounge`
-};
 
-export const PointType = {
+
+export const EventType = {
   TAXI: `taxi`,
   BUS: `bus`,
   TRAIN: `train`,
@@ -33,26 +17,25 @@ export const PointType = {
   SIGHTSEEING: `sightseeing`,
   RESTAURANT: `restaurant`
 };
-
 const Suffix = {
   TRANSPORT: `to`,
   PLACE: `in`
 };
 
 export const TRANSPORT_TYPES = [
-  PointType.TAXI,
-  PointType.BUS,
-  PointType.TRAIN,
-  PointType.SHIP,
-  PointType.TRANSPORT,
-  PointType.DRIVE,
-  PointType.FLIGHT
+  EventType.TAXI,
+  EventType.BUS,
+  EventType.TRAIN,
+  EventType.SHIP,
+  EventType.TRANSPORT,
+  EventType.DRIVE,
+  EventType.FLIGHT
 ];
 
 export const PLACE_TYPES = [
-  PointType.CHECK_IN,
-  PointType.SIGHTSEEING,
-  PointType.RESTAURANT
+  EventType.CHECK_IN,
+  EventType.SIGHTSEEING,
+  EventType.RESTAURANT
 ];
 
 const generateTypesMap = (types, suffix) =>
@@ -86,32 +69,6 @@ export const DESCRIPTION =
   In rutrum ac purus sit amet tempus.`;
 
 
-export const Offer = Object.values(OfferType).reduce(
-    (acc, type) =>
-      Object.assign(acc, {
-        [type]: {
-          title: getRandomArrayItem(DESCRIPTION.split(/\.\s+/)),
-          price: getRandomInteger(100, 30)
-        }
-      }),
-    {}
-);
-const offersForEvents = [];
-// для каждого типа точки задаем список возможных опций
-export const createOffersForEvents = () => {
-  for (let i = 0; i < COUNT; i++) {
-    const offersForPoint = Object.values(PointType).reduce(
-        (acc, type) =>
-          Object.assign(acc, {
-            [type]: Object.values(OfferType)
-              .sort(getRandomBoolean)
-              .slice(0, getRandomInteger(COUNT_OFFER))
-          }),
-        {}
-    );
-    offersForEvents.push(offersForPoint);
-  }
-};
 export const eventPointTypes = [
   {type: `bus`, isChecked: false, group: `Transfer`},
   {type: `check-in`, isChecked: false, group: `Activity`},
@@ -125,13 +82,16 @@ export const eventPointTypes = [
   {type: `transport`, isChecked: false, group: `Transfer`},
   {type: `trip`, isChecked: false, group: `Transfer`}
 ];
-export const POINT_OFFERS = [
-  {type: `luggage`, title: `Add luggage`, price: 10, isChecked: getRandomBoolean()},
-  {type: `comfort`, title: `Switch to comfort class`, price: 150, isChecked: getRandomBoolean()},
-  {type: `meal`, title: `Add meal`, price: 2, isChecked: getRandomBoolean()},
-  {type: `seats`, title: `Choose seats`, price: 9, isChecked: getRandomBoolean()},
-  {type: `train`, title: `Travel by train`, price: 40, isChecked: getRandomBoolean()}
-];
+
+export const OfferType = {
+  MEAL: `meal`,
+  SEATS: `seats`,
+  COMFORT: `comfort`,
+  LUGGAGE: `luggage`,
+  TRAIN: `train`
+};
+
+
 export const generateDescription = () => {
   return DESCRIPTION.split(/\.\s+/).sort(getRandomBoolean).slice(0, COUNT).join(`.`);
 };
@@ -148,6 +108,18 @@ export const destinationDetails = Object.values(Destination).reduce(
       }),
     {}
 );
+const Offer = Object.values(OfferType).reduce(
+    (acc, type) =>
+      Object.assign(acc, {
+        [type]: {
+          title: getRandomArrayItem(DESCRIPTION.split(/\.\s+/)),
+          price: getRandomInteger(100, 30)
+        }
+      }),
+    {}
+);
+
+
 export const populateEvent = (event) =>
   Object.assign({}, event, {
     destination: Object.assign(
@@ -171,3 +143,33 @@ export const MONTH_NAMES = [
   `November`,
   `December`,
 ];
+
+
+// для каждого типа точки задаем список возможных опций
+
+export const offersForEvent = Object.values(EventType).reduce(
+    (acc, type) =>
+      Object.assign(acc, {
+        [type]: Object.values(OfferType)
+          .sort(getRandomBoolean)
+          .slice(getRandomInteger(COUNT))
+      }),
+    {}
+);
+export const generateOfferList = () => {
+  const set = new Set();
+  const offerCount = getRandomInteger(2);
+  const offerTypes = Object.values(OfferType);
+
+  for (let i = 0; i < offerCount; i++) {
+    set.add(getRandomArrayItem(offerTypes));
+
+  }
+
+  const offers = [];
+  set.forEach((item) => {
+    offers.push({type: item, checked: getRandomBoolean(), cost: getRandomInteger(200)});
+  });
+
+  return offers;
+};
