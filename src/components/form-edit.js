@@ -4,7 +4,6 @@ import {createElement} from "../utils/render.js";
 
 export const createFormEditTemplate = (event) => {
   const {dateStart, cityOption, dateEnd, price, offers} = event;
-  cityOption = {city, description, photos};
   const getCity = () => {
     return `
       <option value="${cityOption.city}"></option>
@@ -93,7 +92,7 @@ export const createFormEditTemplate = (event) => {
         </section>
         <section class="event__section  event__section--destination">
           <h3 class="event__section-title  event__section-title--destination">Destination</h3>
-          <p class="event__destination-description">${event.cityOption.description}</p>
+          <p class="event__destination-description">${cityOption.description}</p>
           <div class="event__photos-container">
             <div class="event__photos-tape">
             ${event.cityOption.photos.map((url) => `<img class="event__photo" src=${url} alt="Event photo">`).join(``)}
