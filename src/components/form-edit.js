@@ -3,10 +3,11 @@ import {TRANSPORT_TYPES, PLACE_TYPES, CITIES, suffixForPoint, Offer} from "../co
 import {createElement} from "../utils/render.js";
 
 export const createFormEditTemplate = (event) => {
-  const {dateStart, dateEnd, price, offers} = event;
-  const getCity = (city) => {
+  const {dateStart, cityOption, dateEnd, price, offers} = event;
+  cityOption = {city, description, photos};
+  const getCity = () => {
     return `
-      <option value="${city}"></option>
+      <option value="${cityOption.city}"></option>
     `;
   };
   return `<li class="trip-events__item">
@@ -36,7 +37,7 @@ export const createFormEditTemplate = (event) => {
         <label class="event__label  event__type-output" for="event-destination-1">
         ${event.type} ${suffixForPoint[event.type]}
         </label>
-        <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="${event.cityOption.city}" list="destination-list-1">
+        <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="${cityOption.city}" list="destination-list-1">
         <datalist id="destination-list-1">
         ${CITIES.map((item) => getCity(item)).join(``)}
         </datalist>

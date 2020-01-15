@@ -46,14 +46,14 @@ export const suffixForPoint = Object.assign(
     generateTypesMap(PLACE_TYPES, Suffix.PLACE)
 );
 
-export const Destination = {
-  MOSCOW: `Moscow`,
-  TOKYO: `Tokyo`,
-  PARIS: `Paris`,
-  MELBURN: `Melbourne`,
-  SYDNEY: `Sydney`,
-  BERLIN: `Berlin`
-};
+// export const Destination = {
+//   MOSCOW: `Moscow`,
+//   TOKYO: `Tokyo`,
+//   PARIS: `Paris`,
+//   MELBURN: `Melbourne`,
+//   SYDNEY: `Sydney`,
+//   BERLIN: `Berlin`
+// };
 
 export const DESCRIPTION =
   `Lorem ipsum dolor sit amet, consectetur adipiscing elit.
@@ -116,7 +116,7 @@ export const offersForEvent = Object.values(EventType).reduce(
       Object.assign(acc, {
         [type]: Object.values(OfferType)
           .sort(getRandomBoolean)
-          .slice(getRandomInteger(COUNT))
+          .slice(getRandomInteger(COUNT, 0))
       }),
     {}
 );

@@ -7,7 +7,7 @@ const COUNT_OFFERS = 2;
 const cityOptions = CITIES.map((CITY) => {
   return {
     city: CITY,
-    photos: new Array(getRandomInteger(dataOffer.photo.PHOTO_MIN_COUNT, dataOffer.photo.PHOTO_MAX_COUNT))
+    photos: new Array(getRandomInteger(dataOffer.photo.PHOTO_MAX_COUNT, dataOffer.photo.PHOTO_MIN_COUNT))
           .fill(``).map(() => `http://picsum.photos/300/150?r=${Math.random()}`),
     description: generateDescription()
   };
@@ -23,7 +23,7 @@ export const generatePoint = () => {
   return {
     type,
     cityOption,
-    offers: offersForEvent[type].slice(0, getRandomInteger(COUNT_OFFERS)),
+    offers: offersForEvent[type].slice(0, getRandomInteger(COUNT_OFFERS, 0)),
     price: getRandomInteger(dataOffer.price.MAX, dataOffer.price.MIN),
     dateStart: dates[0],
     dateEnd: dates[1],

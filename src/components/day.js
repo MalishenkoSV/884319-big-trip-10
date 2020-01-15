@@ -23,13 +23,15 @@ export const createTripDayTemplate = (day, events, dayIndex) => {
   );
 };
 export default class Day {
-  constructor(day) {
+  constructor(day, events, dayIndex) {
     this._day = day;
     this._element = null;
+    this._events = events;
+    this._dayIndex = dayIndex;
   }
 
   getTemplate() {
-    return createTripDayTemplate(this._day);
+    return createTripDayTemplate(this._day, this._events, this._dayIndex);
   }
 
   getElement() {
