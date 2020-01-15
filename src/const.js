@@ -81,19 +81,7 @@ export const OfferType = {
 export const generateDescription = () => {
   return DESCRIPTION.split(/\.\s+/).sort(getRandomBoolean).slice(0, COUNT).join(`.`);
 };
-export const destinationDetails = Object.values(Destination).reduce(
-    (acc, name) =>
-      Object.assign(acc, {
-        [name]: {
-          description: generateDescription(),
-          photos: new Array(getRandomInteger(COUNT, 1)).fill(``).map(() => ({
-            src: `http://picsum.photos/300/150?r=${Math.random()}`,
-            description: getRandomArrayItem(DESCRIPTION.split(/\.\s+/))
-          }))
-        }
-      }),
-    {}
-);
+
 export const Offer = Object.values(OfferType).reduce(
     (acc, type) =>
       Object.assign(acc, {
@@ -105,16 +93,6 @@ export const Offer = Object.values(OfferType).reduce(
     {}
 );
 
-
-export const populateEvent = (event) =>
-  Object.assign({}, event, {
-    destination: Object.assign(
-        {name: event.destination},
-        destinationDetails[event.destination]
-    ),
-    offers: event.offers.map((type) => Offer[type]),
-    suffix: suffixForPoint[event.type]
-  });
 export const MONTH_NAMES = [
   `January`,
   `February`,

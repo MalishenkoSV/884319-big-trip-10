@@ -1,10 +1,5 @@
 const RANDOM_LIMIT = 0.5;
 
-export const castDate = (date) => {
-  const hours = date.getHours() > 9 ? date.getHours() : `0${date.getHours()}`;
-  const minutes = date.getMinutes() > 9 ? date.getMinutes() : `0${date.getMinutes()}`;
-  return `${hours}:${minutes}`;
-};
 export const castZeroFirstFormat = (value) => {
   return value < 10 ? `0${value}` : String(value);
 };
@@ -85,13 +80,6 @@ export const formatTime = (date) => {
   const minutes = castFirstFormat(date.getMinutes());
   return `${day}/${month}/${year} ${hours}:${minutes}`;
 };
-export const getDuration = (n) => {
-  const hours = (n / 60);
-  const rhours = Math.floor(hours);
-  const minutes = (hours - rhours) * 60;
-  const rminutes = Math.round(minutes);
-  return `${rhours}H ${rminutes}M`;
-};
 
 export const castDateTimeFormat = (date) => {
   let yyyy = date.getFullYear();
@@ -107,19 +95,6 @@ export const getRandomDate = () => {
   return Date.now() + 1 + Math.floor(Math.random() * 7) * 24 * getRandomInteger(0, 60) * 60 * 1000;
 };
 
-
-const shuffleArray = (array) => {
-  for (let i = array.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [array[i], array[j]] = [array[j], array[i]];
-  }
-  return array;
-};
-
-export const getShuffledSubarray = (array, numberOfElements) => {
-  const shuffledArr = shuffleArray(array);
-  return shuffledArr.slice(0, numberOfElements);
-};
 export const calculateTimeInterval = (time1, time2) => {
   const startDate = new Date(time1);
   const endDate = new Date(time2);

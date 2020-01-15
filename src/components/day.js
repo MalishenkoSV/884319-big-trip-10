@@ -1,5 +1,6 @@
 
 import {MONTH_NAMES} from "../const";
+import {createElement} from "../utils/render.js";
 import {createFormEditTemplate} from "./form-edit.js";
 import {createEventTemplate} from "./event.js";
 import {castDateFormat} from "../utils";
@@ -27,3 +28,25 @@ export const createTripDayTemplate = (day, events, dayIndex) => {
      </li>`
   );
 };
+export default class Day {
+  constructor(day) {
+    this._day = day;
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createTripDayTemplate(this._day);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}

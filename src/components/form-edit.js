@@ -1,5 +1,6 @@
 import {formatDate} from "../utils.js";
 import {TRANSPORT_TYPES, PLACE_TYPES, CITIES, suffixForPoint, Offer} from "../const.js";
+import {createElement} from "../utils/render.js";
 
 export const createFormEditTemplate = (event) => {
   const {dateStart, dateEnd, price, offers} = event;
@@ -102,3 +103,25 @@ export const createFormEditTemplate = (event) => {
     </form>
     </li>`;
 };
+export default class FormEdit {
+  constructor(event) {
+    this._element = null;
+    this._event = event;
+  }
+
+  getTemplate() {
+    return createFormEditTemplate(this._event);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}

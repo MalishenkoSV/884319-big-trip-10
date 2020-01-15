@@ -1,5 +1,6 @@
 import {castDateFormat, calculateTimeInterval, castTimeFormat} from "../utils";
 import {suffixForPoint, Offer} from "../const.js";
+import {createElement} from "../utils/render.js";
 
 const generateOffersMarkup = (offers) => {
   return offers.map((type) => Offer[type]).map(({title, price: offerPrice}) => {
@@ -45,3 +46,23 @@ export const createEventTemplate = (event) => {
       </li>`
   );
 };
+export default class Event {
+  constructor(event) {
+    this._event = event;
+    this._element = null;
+  }
+
+  getTemplate() {
+    createEventTemplate(this._event);
+  }
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}
