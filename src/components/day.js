@@ -1,20 +1,16 @@
 
 import {MONTH_NAMES} from "../const";
 import {createElement} from "../utils/render.js";
-import {createFormEditTemplate} from "./form-edit.js";
+// import {createFormEditTemplate} from "./form-edit.js";
 import {createEventTemplate} from "./event.js";
 import {castDateFormat} from "../utils";
 
 export const createTripDayTemplate = (day, events, dayIndex) => {
   let editMarkup = ``;
   let eventsMarkup = ``;
-  if (dayIndex === 0) {
-    editMarkup = createFormEditTemplate(events[0]);
-    eventsMarkup = events.slice(1).map((event) => createEventTemplate(event)).join(`\n`);
-  } else {
-    editMarkup = ``;
-    eventsMarkup = events.map((event) => createEventTemplate(event)).join(`\n`);
-  }
+  editMarkup = ``;
+  eventsMarkup = events.map((event) => createEventTemplate(event)).join(`\n`);
+
   return (
     `<li class="trip-days__item  day">
       <div class="day__info">
