@@ -1,4 +1,4 @@
-import {getRandomInteger, getRandomDate, getRandomArrayItem} from '../utils.js';
+import {getRandomInteger, getRandomDateTime, getRandomArrayItem} from '../utils.js';
 import {dataOffer} from '../data.js';
 import {EventType, generateDescription, CITIES, offersForEvent} from '../const.js';
 
@@ -17,16 +17,17 @@ const cityOptions = CITIES.map((CITY) => {
 
 export const generatePoint = () => {
   const cityOption = getRandomArrayItem(cityOptions);
-  const dateStart = getRandomDate();
-  const residual = getRandomInteger(20, 180) * 60 * 1000;
+  const dates = [getRandomDateTime(), getRandomDateTime()];
+  dates.sort((a, b) => a.getTime() - b.getTime());
   const type = getRandomArrayItem(Object.values(EventType));
   return {
     type,
     cityOption,
     offers: offersForEvent[type].slice(0, getRandomInteger(COUNT_OFFERS)),
     price: getRandomInteger(dataOffer.price.MAX, dataOffer.price.MIN),
-    dateStart,
-    dateEnd: dateStart + residual
+    dateStart: dates[0],
+    dateEnd: dates[1],
+    duration: dates[1] - dates[0]
   };
 };
 

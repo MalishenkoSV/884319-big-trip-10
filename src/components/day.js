@@ -6,10 +6,8 @@ import {createEventTemplate} from "./event.js";
 import {castDateFormat} from "../utils";
 
 export const createTripDayTemplate = (day, events, dayIndex) => {
-  let editMarkup = ``;
-  let eventsMarkup = ``;
-  editMarkup = ``;
-  eventsMarkup = events.map((event) => createEventTemplate(event)).join(`\n`);
+  const editMarkup = ``;
+  const eventsMarkup = events.map((event) => createEventTemplate(event)).join(`\n`);
 
   return (
     `<li class="trip-days__item  day">

@@ -26,7 +26,7 @@ const menu = new Menu();
 const filters = new Filters();
 const formSort = new FormSort();
 const daysList = new DaysList(eventsData);
-const formEdit = new FormEdit(eventsData);
+const formEdit = new FormEdit(event);
 const addEvent = new AddEvent();
 
 const renderTripDay = (day) => {
