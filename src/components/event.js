@@ -2,21 +2,21 @@ import {castDateFormat, calculateTimeInterval, castTimeFormat} from "../utils";
 import {suffixForPoint, Offer} from "../const.js";
 import {createElement} from "../utils/render.js";
 
-
+const generateOffersMarkup = (offers) => {
+  return offers.map((type) => Offer[type]).map(({title, price: offerPrice}) => {
+    return (
+      `<li class="event__offer">
+      <span class="event__offer-title">${title}</span>
+        &plus;
+       &euro;&nbsp;<span class="event__offer-price">${offerPrice}</span>
+  </li>`
+    );
+  }).join(`\n`);
+};
 export const createEventTemplate = (event) => {
   const {cityOption, dateStart, dateEnd, price, offers} = event;
   const timeInterval = calculateTimeInterval(dateStart, dateEnd);
-  const generateOffersMarkup = () => {
-    return offers.map((type) => Offer[type]).map(({title, price: offerPrice}) => {
-      return (
-        `<li class="event__offer">
-        <span class="event__offer-title">${title}</span>
-          &plus;
-         &euro;&nbsp;<span class="event__offer-price">${offerPrice}</span>
-    </li>`
-      );
-    }).join(`\n`);
-  };
+
   const offersMarkup = generateOffersMarkup(offers);
   return (
     `<li class="trip-events__item">

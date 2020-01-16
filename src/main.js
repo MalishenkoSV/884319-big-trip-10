@@ -31,10 +31,10 @@ const addEvent = new AddEvent();
 
 const renderTripDay = (dayEvent, dayIndex) => {
   const dayItem = new Day(dayEvent, eventDatas, dayIndex);
-  const dayEvents = eventDatas.filter((eventData) => castDateTimeFormat(eventData.dateStart) === dayEvent);
-  dayEvents.forEach(() => {
-    const eventItem = new Event(dayEvent);
-    const formEdit = new FormEdit(dayEvent);
+  const dataEvents = eventDatas.filter((eventData) => castDateTimeFormat(eventData.dateStart) === dayEvent);
+  dataEvents.forEach((dataEvent) => {
+    const eventItem = new Event(dataEvent);
+    const formEdit = new FormEdit(dataEvent);
     const editButton = eventItem.getElement().querySelector(`.event__rollup-btn`);
     const formEditSubmit = formEdit.getElement();
 
