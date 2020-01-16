@@ -46,14 +46,6 @@ export const suffixForPoint = Object.assign(
     generateTypesMap(PLACE_TYPES, Suffix.PLACE)
 );
 
-// export const Destination = {
-//   MOSCOW: `Moscow`,
-//   TOKYO: `Tokyo`,
-//   PARIS: `Paris`,
-//   MELBURN: `Melbourne`,
-//   SYDNEY: `Sydney`,
-//   BERLIN: `Berlin`
-// };
 
 export const DESCRIPTION =
   `Lorem ipsum dolor sit amet, consectetur adipiscing elit.
