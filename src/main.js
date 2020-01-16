@@ -29,9 +29,9 @@ const formSort = new FormSort();
 const daysList = new DaysList(eventDatas);
 const addEvent = new AddEvent();
 
-const renderTripDay = (dayEvent, dayIndex) => {
-  const dayItem = new Day(dayEvent, eventDatas, dayIndex);
-  const dataEvents = eventDatas.filter((eventData) => castDateTimeFormat(eventData.dateStart) === dayEvent);
+const renderTripDay = (day) => {
+  const dayItem = new Day(day);
+  const dataEvents = eventDatas.filter((eventData) => castDateTimeFormat(eventData.dateStart) === day);
   dataEvents.forEach((dataEvent) => {
     const eventItem = new Event(dataEvent);
     const formEdit = new FormEdit(dataEvent);
@@ -46,7 +46,7 @@ const renderTripDay = (dayEvent, dayIndex) => {
       dayItem.replaceChild(dayItem.getElement(), formEdit.getElement());
     });
 
-    render(dayItem, eventItem.getElement(), RenderPosition.BEFORE_BEGIN);
+    render(dayItem, eventItem.getElement());
   });
   return dayItem;
 };
@@ -62,7 +62,7 @@ const daysListElement = daysList.getElement().querySelector(`.trip-events__list`
 const days = Array.from(new Set(eventDatas.map((eventData) => castDateTimeFormat(eventData.dateStart))));
 days.forEach((day) => {
   const tripDay = renderTripDay(day);
-  render(daysListElement, tripDay.getElement(), RenderPosition.BEFORE_BEGIN);
+  render(daysListElement, tripDay.getElement());
 });
 
 const totalElement = tripInfoPlace.querySelector(`.trip-info__cost-value`);
