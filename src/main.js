@@ -27,7 +27,7 @@ const menu = new Menu();
 const filters = new Filters();
 const formSort = new FormSort();
 const daysList = new DaysList(eventDatas);
-// const addEvent = new AddEvent();
+const addEvent = new AddEvent();
 
 const renderTripDay = (day, dayIndex) => {
   const dayItem = new Day(day, dayIndex, eventDatas);
@@ -57,7 +57,7 @@ render(tripInfoPlace, tripInfo.getElement(), RenderPosition.AFTER_BEGIN);
 render(placeMainControl, menu.getElement(), RenderPosition.AFTER_BEGIN);
 render(placeMainControl, filters.getElement());
 render(placeEventsTrip, formSort.getElement());
-// render(placeEventsTrip, addEvent.getElement());
+render(placeEventsTrip, addEvent.getElement());
 render(placeEventsTrip, daysList.getElement());
 const daysListElement = daysList.getElement().querySelector(`.trip-events__list`);
 

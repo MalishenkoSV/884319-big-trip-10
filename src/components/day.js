@@ -5,7 +5,7 @@ import {createElement} from "../utils/render.js";
 import {createEventTemplate} from "./event.js";
 import {castDateFormat} from "../utils";
 
-export const createTripDayTemplate = (day, dayIndex, events) => {
+export const createTripDayTemplate = (events, day, dayIndex) => {
   const editMarkup = ``;
   const eventsMarkup = events.map((event) => createEventTemplate(event)).join(`\n`);
 
@@ -23,15 +23,15 @@ export const createTripDayTemplate = (day, dayIndex, events) => {
   );
 };
 export default class Day {
-  constructor(day, events, dayIndex) {
-    this._day = day;
+  constructor(events, day, dayIndex) {
     this._element = null;
-    this._events = events;
+    this._day = day;
     this._dayIndex = dayIndex;
+    this._events = events;
   }
 
   getTemplate() {
-    return createTripDayTemplate(this._day, this._events, this._dayIndex);
+    return createTripDayTemplate(this._day, this._dayIndex, this._events);
   }
 
   getElement() {
