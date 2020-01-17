@@ -54,7 +54,7 @@ export default class Event {
   }
 
   getTemplate() {
-    createEventTemplate(this._event);
+    return createEventTemplate(this._event);
   }
   getElement() {
     if (!this._element) {
