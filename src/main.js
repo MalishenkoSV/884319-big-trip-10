@@ -27,7 +27,7 @@ const menu = new Menu();
 const filters = new Filters();
 const formSort = new FormSort();
 const daysList = new DaysList(eventDatas);
-const addEvent = new AddEvent();
+// const addEvent = new AddEvent();
 
 const renderTripDay = (day, dayIndex) => {
   const dayItem = new Day(day, dayIndex, eventDatas);
@@ -62,8 +62,8 @@ render(placeEventsTrip, daysList.getElement());
 const daysListElement = daysList.getElement().querySelector(`.trip-events__list`);
 
 const days = Array.from(new Set(eventDatas.map((eventData) => castDateTimeFormat(eventData.dateStart))));
-days.forEach((day) => {
-  const tripDay = renderTripDay(day);
+days.forEach((day, dayIndex) => {
+  const tripDay = renderTripDay(day, dayIndex);
   render(daysListElement, tripDay.getElement());
 });
 

@@ -5,7 +5,7 @@ import {createElement} from "../utils/render.js";
 import {createEventTemplate} from "./event.js";
 import {castDateFormat} from "../utils";
 
-export const createTripDayTemplate = (day, events, dayIndex) => {
+export const createTripDayTemplate = (day, dayIndex, events) => {
   const editMarkup = ``;
   const eventsMarkup = events.map((event) => createEventTemplate(event)).join(`\n`);
 
