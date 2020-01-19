@@ -31,7 +31,7 @@ export default class Day {
   }
 
   getTemplate() {
-    return createTripDayTemplate(this._day, this._dayIndex, this._events);
+    return createTripDayTemplate(this._events, this._day, this._dayIndex);
   }
 
   getElement() {
