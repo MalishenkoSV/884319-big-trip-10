@@ -8,12 +8,12 @@ import Event from './components/event.js';
 import Day from './components/day.js';
 import DaysList from './components/days-list.js';
 import FormEdit from './components/form-edit.js';
-import AddEvent from './components/add-event.js';
+// import AddEvent from './components/add-event.js';
 import {generatePoints} from './mock/data-event.js';
 import {render, RenderPosition} from './utils/render.js';
 import {castDateTimeFormat} from './utils.js';
 
-const TASK_COUNT = 3;
+const TASK_COUNT = 16;
 const pageHeader = document.querySelector(`.page-header`);
 const tripInfoPlace = pageHeader.querySelector(`.trip-main__trip-info`);
 const placeMainControl = pageHeader.querySelector(`.trip-controls`);
@@ -26,18 +26,18 @@ const tripInfo = new TripInfo(eventsData);
 const menu = new Menu();
 const filters = new Filters();
 const formSort = new FormSort();
-const daysList = new DaysList(eventsData);
-const addEvent = new AddEvent();
+const daysList = new DaysList();
+// const addEvent = new AddEvent();
 
 const renderTripDay = (day, dayIndex) => {
-  const dayItem = new Day(eventsData, day, dayIndex);
+  const dayItem = new Day(day, dayIndex);
   const dataEvents = eventsData.filter((event) => castDateTimeFormat(event.dateStart) === day);
   dataEvents.forEach((dataEvent) => {
     const eventItem = new Event(dataEvent);
     const formEdit = new FormEdit(dataEvent);
     const eventListElement = dayItem.getElement().querySelector(`.trip-events__list`);
     const editButton = eventItem.getElement().querySelector(`.event__rollup-btn`);
-    const formEditSubmit = formEdit.getElement();
+    const formEditSubmit = formEdit.getElement().querySelector(`.event__rollup-btn`);
 
     editButton.addEventListener(`click`, () => {
       dayItem.replaceChild(formEdit.getElement(), eventItem.getElement());
@@ -57,13 +57,14 @@ render(tripInfoPlace, tripInfo.getElement(), RenderPosition.AFTER_BEGIN);
 render(placeMainControl, menu.getElement(), RenderPosition.AFTER_BEGIN);
 render(placeMainControl, filters.getElement());
 render(placeEventsTrip, formSort.getElement());
-render(placeEventsTrip, addEvent.getElement());
+// render(placeEventsTrip, addEvent.getElement());
+
 render(placeEventsTrip, daysList.getElement());
-const daysListElement = daysList.getElement().querySelector(`.trip-events__list`);
+const daysListElement = placeEventsTrip.querySelector(`.trip-days`);
 
 const days = Array.from(new Set(eventsData.map((eventData) => castDateTimeFormat(eventData.dateStart))));
 days.forEach((day, dayIndex) => {
-  const tripDay = renderTripDay(eventsData, day, dayIndex);
+  const tripDay = renderTripDay(day, dayIndex);
   render(daysListElement, tripDay.getElement());
 });
 
