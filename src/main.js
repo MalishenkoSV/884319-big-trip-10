@@ -50,17 +50,16 @@ const renderTripDay = (day, dayIndex) => {
     const onEscPressDown = (evt) => {
       if (evt.keyCode === ESC_KEYCODE) {
         replaceEditToEvent();
+        document.removeEventListener(`keydown`, onEscPressDown);
       }
-      document.removeEventListener(`keydown`, onEscPressDown);
     };
     editButton.addEventListener(`click`, () => {
       replaceEventToEdit();
-      onEscPressDown();
+      document.addEventListener(`keydown`, onEscPressDown);
     });
     formEditSubmit.addEventListener(`submit`, (evt) => {
       evt.preventDefault();
       replaceEditToEvent();
-      onEscPressDown();
     });
 
     render(eventListElement, eventItem.getElement());
