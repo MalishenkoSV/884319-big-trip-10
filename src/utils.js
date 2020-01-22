@@ -3,7 +3,12 @@ const RANDOM_LIMIT = 0.5;
 export const castZeroFirstFormat = (value) => {
   return value < 10 ? `0${value}` : String(value);
 };
-
+export const castDateSimplyFormat = (date) => {
+  let yyyy = date.getFullYear();
+  let mm = castZeroFirstFormat(date.getMonth() + 1);
+  let dd = castZeroFirstFormat(date.getDate());
+  return `${yyyy}-${mm}-${dd}`;
+};
 export const castDateFormat = (dateUnix) => {
   const date = new Date(dateUnix);
 

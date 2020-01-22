@@ -62,7 +62,7 @@ render(placeEventsTrip, formSort.getElement());
 render(placeEventsTrip, daysList.getElement());
 const daysListElement = placeEventsTrip.querySelector(`.trip-days`);
 
-const days = Array.from(new Set(eventsData.map((eventData) => castDateTimeFormat(eventData.dateStart))));
+const days = Array.from(new Set(eventsData.map((eventData) => new Date(eventData.dateStart).toDateString())));
 days.forEach((day, dayIndex) => {
   const tripDay = renderTripDay(day, dayIndex);
   render(daysListElement, tripDay.getElement());

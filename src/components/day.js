@@ -1,8 +1,6 @@
-
-import {MONTH_NAMES} from "../const";
 import {createElement} from "../utils/render.js";
+import {MONTH_NAMES} from "../const";
 import {castDateFormat} from "../utils";
-
 export const createTripDayTemplate = (day, dayIndex) => {
 
   return (
