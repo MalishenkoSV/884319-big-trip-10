@@ -31,7 +31,8 @@ const daysList = new DaysList();
 
 const renderTripDay = (day, dayIndex) => {
   const dayItem = new Day(day, dayIndex);
-  const dataEvents = eventsData.filter((event) => castDateTimeFormat(event.dateStart) === day);
+  const dataEvents = eventsData.filter((eventData) => new Date(eventData.dateStart).toDateString() === day);
+
   dataEvents.forEach((dataEvent) => {
     const eventItem = new Event(dataEvent);
     const formEdit = new FormEdit(dataEvent);
