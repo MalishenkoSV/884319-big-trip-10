@@ -11,9 +11,9 @@ import FormEdit from './components/form-edit.js';
 // import AddEvent from './components/add-event.js';
 import {generatePoints} from './mock/data-event.js';
 import {render, RenderPosition} from './utils/render.js';
-import {castDateTimeFormat} from './utils.js';
 
 const TASK_COUNT = 16;
+const ESC_KEYCODE = 27;
 const pageHeader = document.querySelector(`.page-header`);
 const tripInfoPlace = pageHeader.querySelector(`.trip-main__trip-info`);
 const placeMainControl = pageHeader.querySelector(`.trip-controls`);
@@ -39,13 +39,28 @@ const renderTripDay = (day, dayIndex) => {
     const eventListElement = dayItem.getElement().querySelector(`.trip-events__list`);
     const editButton = eventItem.getElement().querySelector(`.event__rollup-btn`);
     const formEditSubmit = formEdit.getElement().querySelector(`.event__rollup-btn`);
+    const replaceEventToEdit = () => {
+      eventListElement.replaceChild(formEdit.getElement(), eventItem.getElement());
+    };
 
+    const replaceEditToEvent = () => {
+      eventListElement.replaceChild(eventItem.getElement(), formEdit.getElement());
+    };
+
+    const onEscPressDown = (evt) => {
+      if (evt.keyCode === ESC_KEYCODE) {
+        replaceEditToEvent();
+      }
+      document.removeEventListener(`keydown`, onEscPressDown);
+    };
     editButton.addEventListener(`click`, () => {
-      dayItem.replaceChild(formEdit.getElement(), eventItem.getElement());
+      replaceEventToEdit();
+      onEscPressDown();
     });
     formEditSubmit.addEventListener(`submit`, (evt) => {
       evt.preventDefault();
-      dayItem.replaceChild(dayItem.getElement(), formEdit.getElement());
+      replaceEditToEvent();
+      onEscPressDown();
     });
 
     render(eventListElement, eventItem.getElement());
