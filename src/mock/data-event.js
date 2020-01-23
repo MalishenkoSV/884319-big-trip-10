@@ -3,7 +3,6 @@ import {dataOffer} from '../data.js';
 import {EventType, generateDescription, CITIES, offersForEvent} from '../const.js';
 
 const COUNT = 5;
-const COUNT_OFFERS = 2;
 const cityOptions = CITIES.map((CITY) => {
   return {
     city: CITY,
@@ -23,7 +22,7 @@ export const generatePoint = () => {
   return {
     type,
     cityOption,
-    offers: offersForEvent[type].slice(0, getRandomInteger(COUNT_OFFERS, 0)),
+    offers: offersForEvent[type].slice(0, getRandomInteger(COUNT, 0)),
     price: getRandomInteger(dataOffer.price.MAX, dataOffer.price.MIN),
     dateStart: dates[0],
     dateEnd: dates[1],
