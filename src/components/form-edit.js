@@ -77,7 +77,7 @@ export const createFormEditTemplate = (event) => {
         <section class="event__section  event__section--offers">
           <h3 class="event__section-title  event__section-title--offers">Offers</h3>
           <div class="event__available-offers">
-            ${offers.map((type) => Offer[type]).map(({type: offerType, price: offerPrice, title, isChecked}) => {
+          ${offers.map((type) => Offer[type]).map(({type: offerType, price: offerPrice, title, isChecked}) => {
     return (
       `<div class="event__offer-selector">
                 <input class="event__offer-checkbox  visually-hidden" id="event-offer-${offerType}-1" type="checkbox" name="event-offer-${offerType}" ${isChecked ? `checked` : ``}}>
