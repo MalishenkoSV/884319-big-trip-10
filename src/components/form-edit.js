@@ -3,10 +3,11 @@ import {TRANSPORT_TYPES, PLACE_TYPES, CITIES, suffixForPoint, Offer} from "../co
 import {createElement} from "../utils/render.js";
 const generateOffersMarkup = (offers) => {
   const offersEvent = offers.map((type) => ({type, price: Offer[type].price, title: Offer[type].title}));
-  return offersEvent.map((type, title, price, isChecked) => {
+  return offersEvent.map(({type, title, price}) => {
+    const isChecked = offersEvent.find((offerEvent) => offerEvent.type === type);
     return (
       `<div class="event__offer-selector">
-                <input class="event__offer-checkbox  visually-hidden" id="event-offer-${type}-1" type="checkbox" name="event-offer-${type}" ${isChecked ? `checked` : ``}}>
+                <input class="event__offer-checkbox  visually-hidden" id="event-offer-${type}-1" type="checkbox" name="event-offer-${type}" ${isChecked ? `checked` : ``}>
                 <label class="event__offer-label" for="event-offer-${type}-1">
                   <span class="event__offer-title">${title}</span>
                   &plus;
