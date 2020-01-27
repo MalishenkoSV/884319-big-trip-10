@@ -1,19 +1,20 @@
 import {formatDate} from "../utils.js";
 import {TRANSPORT_TYPES, PLACE_TYPES, CITIES, suffixForPoint, Offer} from "../const.js";
 import {createElement} from "../utils/render.js";
+
 const generateOffersMarkup = (offers) => {
   const offersEvent = offers.map((type) => ({type, price: Offer[type].price, title: Offer[type].title}));
   return offersEvent.map(({type, title, price}) => {
-    const isChecked = offersEvent.find((offerEvent) => offerEvent.type === type);
     return (
       `<div class="event__offer-selector">
-                <input class="event__offer-checkbox  visually-hidden" id="event-offer-${type}-1" type="checkbox" name="event-offer-${type}" ${isChecked ? `checked` : ``}>
+                <input class="event__offer-checkbox  visually-hidden" id="event-offer-${type}-1" type="checkbox" name="event-offer-${type}">
                 <label class="event__offer-label" for="event-offer-${type}-1">
                   <span class="event__offer-title">${title}</span>
                   &plus;
                   &euro;&nbsp;<span class="event__offer-price">${price}</span>
                 </label>
               </div>`
+
     );
   }).join(`\n`);
 };
@@ -91,7 +92,7 @@ export const createFormEditTemplate = (event) => {
         <section class="event__section  event__section--offers">
           <h3 class="event__section-title  event__section-title--offers">Offers</h3>
           <div class="event__available-offers">
-          ${generateOffersMarkup(offers)};
+          ${generateOffersMarkup(offers)}
           </div>
         </section>
         <section class="event__section  event__section--destination">
