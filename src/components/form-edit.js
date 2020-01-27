@@ -1,25 +1,26 @@
 import {formatDate} from "../utils.js";
-import {TRANSPORT_TYPES, PLACE_TYPES, CITIES, suffixForPoint, Offer} from "../const.js";
+import {TRANSPORT_TYPES, PLACE_TYPES, CITIES, suffixForPoint, offersForEvent, Offer} from "../const.js";
 import {createElement} from "../utils/render.js";
 
-const generateOffersMarkup = (offers) => {
-  const offersEvent = offers.map((type) => ({type, price: Offer[type].price, title: Offer[type].title}));
-  return offersEvent.map(({type, title, price}) => {
-    return (
-      `<div class="event__offer-selector">
-                <input class="event__offer-checkbox  visually-hidden" id="event-offer-${type}-1" type="checkbox" name="event-offer-${type}">
-                <label class="event__offer-label" for="event-offer-${type}-1">
-                  <span class="event__offer-title">${title}</span>
-                  &plus;
-                  &euro;&nbsp;<span class="event__offer-price">${price}</span>
-                </label>
-              </div>`
 
-    );
-  }).join(`\n`);
-};
 export const createFormEditTemplate = (event) => {
-  const {dateStart, cityOption, dateEnd, price, offers} = event;
+  const {dateStart, cityOption, dateEnd, price, offers, type} = event;
+  const generateOffersMarkup = () => {
+    // const offers = offersForEvent[type];
+    return offersForEvent[type].map((offerType) => Offer[offerType]).map(({offerType, title, price: offerPrice}) => {
+      return (
+        `<div class="event__offer-selector">
+                  <input class="event__offer-checkbox  visually-hidden" id="event-offer-${offerType}-1" type="checkbox" name="event-offer-${offerType}">
+                  <label class="event__offer-label" for="event-offer-${offerType}-1">
+                    <span class="event__offer-title">${title}</span>
+                    &plus;
+                    &euro;&nbsp;<span class="event__offer-price">${offerPrice}</span>
+                  </label>
+                </div>`
+
+      );
+    }).join(`\n`);
+  };
   const getCity = () => {
     return `
       <option value="${cityOption.city}"></option>
