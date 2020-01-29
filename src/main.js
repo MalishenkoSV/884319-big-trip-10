@@ -8,7 +8,7 @@ import Event from './components/event.js';
 import Day from './components/day.js';
 import DaysList from './components/days-list.js';
 import FormEdit from './components/form-edit.js';
-// import AddEvent from './components/add-event.js';
+import Massage from './components/massage.js';
 import {generatePoints} from './mock/data-event.js';
 import {render, RenderPosition} from './utils/render.js';
 
@@ -27,7 +27,7 @@ const menu = new Menu();
 const filters = new Filters();
 const formSort = new FormSort();
 const daysList = new DaysList();
-// const addEvent = new AddEvent();
+const massage = new Massage();
 
 const renderTripDay = (day, dayIndex) => {
   const dayItem = new Day(day, dayIndex);
@@ -68,21 +68,23 @@ const renderTripDay = (day, dayIndex) => {
 };
 
 
-render(tripInfoPlace, tripInfo.getElement(), RenderPosition.AFTER_BEGIN);
-render(placeMainControl, menu.getElement(), RenderPosition.AFTER_BEGIN);
-render(placeMainControl, filters.getElement());
-render(placeEventsTrip, formSort.getElement());
-// render(placeEventsTrip, addEvent.getElement());
+if (eventsData.length === 0) {
+  render(placeEventsTrip, massage.getElement());
+} else {
+  render(tripInfoPlace, tripInfo.getElement(), RenderPosition.AFTER_BEGIN);
+  render(placeMainControl, menu.getElement(), RenderPosition.AFTER_BEGIN);
+  render(placeMainControl, filters.getElement());
+  render(placeEventsTrip, formSort.getElement());
+  render(placeEventsTrip, daysList.getElement());
+  const daysListElement = placeEventsTrip.querySelector(`.trip-days`);
 
-render(placeEventsTrip, daysList.getElement());
-const daysListElement = placeEventsTrip.querySelector(`.trip-days`);
+  const days = Array.from(new Set(eventsData.map((eventData) => new Date(eventData.dateStart).toDateString())));
+  days.forEach((day, dayIndex) => {
+    const tripDay = renderTripDay(day, dayIndex);
+    render(daysListElement, tripDay.getElement());
+  });
 
-const days = Array.from(new Set(eventsData.map((eventData) => new Date(eventData.dateStart).toDateString())));
-days.forEach((day, dayIndex) => {
-  const tripDay = renderTripDay(day, dayIndex);
-  render(daysListElement, tripDay.getElement());
-});
-
-const totalElement = tripInfoPlace.querySelector(`.trip-info__cost-value`);
-const totalCost = eventsData.reduce((reducer, eventData) => reducer + eventData.price, 0);
-totalElement.textContent = totalCost.toString();
+  const totalElement = tripInfoPlace.querySelector(`.trip-info__cost-value`);
+  const totalCost = eventsData.reduce((reducer, eventData) => reducer + eventData.price, 0);
+  totalElement.textContent = totalCost.toString();
+}
