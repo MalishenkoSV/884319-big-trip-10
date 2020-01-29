@@ -6,8 +6,8 @@ import {createElement} from "../utils/render.js";
 export const createFormEditTemplate = (event) => {
   const {dateStart, cityOption, dateEnd, price, offers, type} = event;
   const generateOffersMarkup = () => {
-    return offersForEvent[type].map((offerType) => Offer[offerType]).map(({offerType, title, price: offerPrice}) => {
-      const isChecked = offers.include(offerType);
+    return offersForEvent[type].map((offerType) => Object.assign({offerType}, Offer[offerType])).map(({offerType, title, price: offerPrice}) => {
+      const isChecked = event.offers.includes(offerType);
       return (
         `<div class="event__offer-selector">
                   <input class="event__offer-checkbox  visually-hidden" id="event-offer-${offerType}-1" type="checkbox" name="event-offer-${offerType}" ${isChecked ? `checked` : ``}>
