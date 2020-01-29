@@ -1,14 +1,14 @@
 const RANDOM_LIMIT = 0.5;
 
-export const castDate = (date) => {
-  const hours = date.getHours() > 9 ? date.getHours() : `0${date.getHours()}`;
-  const minutes = date.getMinutes() > 9 ? date.getMinutes() : `0${date.getMinutes()}`;
-  return `${hours}:${minutes}`;
-};
 export const castZeroFirstFormat = (value) => {
   return value < 10 ? `0${value}` : String(value);
 };
-
+export const castDateSimplyFormat = (date) => {
+  let yyyy = date.getFullYear();
+  let mm = castZeroFirstFormat(date.getMonth() + 1);
+  let dd = castZeroFirstFormat(date.getDate());
+  return `${yyyy}-${mm}-${dd}`;
+};
 export const castDateFormat = (dateUnix) => {
   const date = new Date(dateUnix);
 
@@ -29,38 +29,38 @@ export const formatDate = (dateUnix) => {
   return `${date}/${month}/${year} ${hours}:${minutes}`;
 };
 
-export const getEndDate = (someDate) => {
-  const targetDate = new Date(someDate);
-  targetDate.setMilliseconds(getRandomInteger(0, 4) * 60 * 60 * 1000);
-  return targetDate;
-};
 
 export const formatToTitleCase = (word) => {
   const firstLetter = word[0].toUpperCase();
   return `${firstLetter}${word.slice(1)}`;
 };
 
-export const getRandomInteger = (max, min = 0) => Math.floor(Math.random() * (max - min + 1) + min);
+export const getRandomInteger = (max, min) => Math.floor(Math.random() * (max - min + 1) + min);
 
-export const getRandomArrayItem = (array) => array[getRandomInteger(array.length - 1)];
+export const getRandomArrayItem = (array) => array[getRandomInteger(array.length - 1, 0)];
 
 export const getRandomBoolean = () => {
   return Math.random() > RANDOM_LIMIT;
 };
 export const getRandomArray = (min, max, array) => {
   const newArray = [];
-  const newArrayLength = getRandomInteger(min, max);
+  const newArrayLength = getRandomInteger(max, min);
   for (let i = 0; i < newArrayLength; i++) {
-    newArray.push(getRandomInteger(array));
+    newArray.push(getRandomInteger(array, 0));
   }
   return newArray;
+};
+export const getEndDate = (someDate) => {
+  const targetDate = new Date(someDate);
+  targetDate.setMilliseconds(getRandomInteger(4, 0) * 60 * 60 * 1000);
+  return targetDate;
 };
 export const getRandomDateTime = () => {
   const targetDate = new Date();
   const sing = getRandomBoolean ? 1 : -1;
-  const diffValue = sing * getRandomInteger(0, 2);
-  const hours = getRandomInteger(0, 23);
-  const minutes = getRandomInteger(0, 59);
+  const diffValue = sing * getRandomInteger(2, 0);
+  const hours = getRandomInteger(23, 0);
+  const minutes = getRandomInteger(59, 0);
   targetDate.setDate(targetDate.getDate() + diffValue);
   targetDate.setHours(hours, minutes);
 
@@ -85,13 +85,6 @@ export const formatTime = (date) => {
   const minutes = castFirstFormat(date.getMinutes());
   return `${day}/${month}/${year} ${hours}:${minutes}`;
 };
-export const getDuration = (n) => {
-  const hours = (n / 60);
-  const rhours = Math.floor(hours);
-  const minutes = (hours - rhours) * 60;
-  const rminutes = Math.round(minutes);
-  return `${rhours}H ${rminutes}M`;
-};
 
 export const castDateTimeFormat = (date) => {
   let yyyy = date.getFullYear();
@@ -104,22 +97,9 @@ export const castDateTimeFormat = (date) => {
 };
 // дата в диапазоне от сегодняшнего
 export const getRandomDate = () => {
-  return Date.now() + 1 + Math.floor(Math.random() * 7) * 24 * getRandomInteger(0, 60) * 60 * 1000;
+  return Date.now() + 1 + Math.floor(Math.random() * 7) * 24 * getRandomInteger(60, 0) * 60 * 1000;
 };
 
-
-const shuffleArray = (array) => {
-  for (let i = array.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [array[i], array[j]] = [array[j], array[i]];
-  }
-  return array;
-};
-
-export const getShuffledSubarray = (array, numberOfElements) => {
-  const shuffledArr = shuffleArray(array);
-  return shuffledArr.slice(0, numberOfElements);
-};
 export const calculateTimeInterval = (time1, time2) => {
   const startDate = new Date(time1);
   const endDate = new Date(time2);

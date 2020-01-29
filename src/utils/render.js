@@ -1,4 +1,4 @@
-export const getRandomInteger = (min, max) => {
+export const getRandomInteger = (max, min) => {
   min = Math.ceil(min);
   max = Math.floor(max);
 

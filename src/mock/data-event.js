@@ -1,13 +1,12 @@
-import {getRandomInteger, getRandomDate, getRandomArrayItem} from '../utils.js';
+import {getRandomInteger, getRandomDateTime, getRandomArrayItem} from '../utils.js';
 import {dataOffer} from '../data.js';
 import {EventType, generateDescription, CITIES, offersForEvent} from '../const.js';
 
 const COUNT = 5;
-const COUNT_OFFERS = 2;
 const cityOptions = CITIES.map((CITY) => {
   return {
     city: CITY,
-    photos: new Array(getRandomInteger(dataOffer.photo.PHOTO_MIN_COUNT, dataOffer.photo.PHOTO_MAX_COUNT))
+    photos: new Array(getRandomInteger(dataOffer.photo.PHOTO_MAX_COUNT, dataOffer.photo.PHOTO_MIN_COUNT))
           .fill(``).map(() => `http://picsum.photos/300/150?r=${Math.random()}`),
     description: generateDescription()
   };
@@ -17,16 +16,17 @@ const cityOptions = CITIES.map((CITY) => {
 
 export const generatePoint = () => {
   const cityOption = getRandomArrayItem(cityOptions);
-  const dateStart = getRandomDate();
-  const residual = getRandomInteger(20, 180) * 60 * 1000;
+  const dates = [getRandomDateTime(), getRandomDateTime()];
+  dates.sort((a, b) => a.getTime() - b.getTime());
   const type = getRandomArrayItem(Object.values(EventType));
   return {
     type,
     cityOption,
-    offers: offersForEvent[type].slice(0, getRandomInteger(COUNT_OFFERS)),
+    offers: offersForEvent[type].slice(0, getRandomInteger(COUNT, 0)),
     price: getRandomInteger(dataOffer.price.MAX, dataOffer.price.MIN),
-    dateStart,
-    dateEnd: dateStart + residual
+    dateStart: dates[0],
+    dateEnd: dates[1],
+    duration: dates[1] - dates[0]
   };
 };
 

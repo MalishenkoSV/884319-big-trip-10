@@ -1,11 +1,29 @@
 import {formatDate} from "../utils.js";
-import {TRANSPORT_TYPES, PLACE_TYPES, CITIES, suffixForPoint, Offer} from "../const.js";
+import {TRANSPORT_TYPES, PLACE_TYPES, CITIES, suffixForPoint, offersForEvent, Offer} from "../const.js";
+import {createElement} from "../utils/render.js";
+
 
 export const createFormEditTemplate = (event) => {
-  const {dateStart, dateEnd, price, offers} = event;
-  const getCity = (city) => {
+  const {dateStart, cityOption, dateEnd, price, offers, type} = event;
+  const generateOffersMarkup = () => {
+    return offersForEvent[type].map((offerType) => Object.assign({offerType}, Offer[offerType])).map(({offerType, title, price: offerPrice}) => {
+      const isChecked = event.offers.includes(offerType);
+      return (
+        `<div class="event__offer-selector">
+                  <input class="event__offer-checkbox  visually-hidden" id="event-offer-${offerType}-1" type="checkbox" name="event-offer-${offerType}" ${isChecked ? `checked` : ``}>
+                  <label class="event__offer-label" for="event-offer-${offerType}-1">
+                    <span class="event__offer-title">${title}</span>
+                    &plus;
+                    &euro;&nbsp;<span class="event__offer-price">${offerPrice}</span>
+                  </label>
+                </div>`
+
+      );
+    }).join(`\n`);
+  };
+  const getCity = () => {
     return `
-      <option value="${city}"></option>
+      <option value="${cityOption.city}"></option>
     `;
   };
   return `<li class="trip-events__item">
@@ -35,7 +53,7 @@ export const createFormEditTemplate = (event) => {
         <label class="event__label  event__type-output" for="event-destination-1">
         ${event.type} ${suffixForPoint[event.type]}
         </label>
-        <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="${event.cityOption.city}" list="destination-list-1">
+        <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="${cityOption.city}" list="destination-list-1">
         <datalist id="destination-list-1">
         ${CITIES.map((item) => getCity(item)).join(``)}
         </datalist>
@@ -75,23 +93,12 @@ export const createFormEditTemplate = (event) => {
         <section class="event__section  event__section--offers">
           <h3 class="event__section-title  event__section-title--offers">Offers</h3>
           <div class="event__available-offers">
-    ${offers.map((type) => Offer[type]).map(({type: offerType, price: offerPrice, title, isChecked}) => {
-    return (
-      `<div class="event__offer-selector">
-                <input class="event__offer-checkbox  visually-hidden" id="event-offer-${offerType}-1" type="checkbox" name="event-offer-${offerType}" ${isChecked ? `checked` : ``}}>
-                <label class="event__offer-label" for="event-offer-${offerType}-1">
-                  <span class="event__offer-title">${title}</span>
-                  &plus;
-                  &euro;&nbsp;<span class="event__offer-price">${offerPrice}</span>
-                </label>
-              </div>`
-    );
-  }).join(`\n`)}
+          ${generateOffersMarkup(offers)}
           </div>
         </section>
         <section class="event__section  event__section--destination">
           <h3 class="event__section-title  event__section-title--destination">Destination</h3>
-          <p class="event__destination-description">${event.cityOption.description}</p>
+          <p class="event__destination-description">${cityOption.description}</p>
           <div class="event__photos-container">
             <div class="event__photos-tape">
             ${event.cityOption.photos.map((url) => `<img class="event__photo" src=${url} alt="Event photo">`).join(``)}
@@ -102,3 +109,25 @@ export const createFormEditTemplate = (event) => {
     </form>
     </li>`;
 };
+export default class FormEdit {
+  constructor(event) {
+    this._element = null;
+    this._event = event;
+  }
+
+  getTemplate() {
+    return createFormEditTemplate(this._event);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}

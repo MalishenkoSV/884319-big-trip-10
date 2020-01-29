@@ -1,6 +1,7 @@
 import {getRandomInteger, getRandomArrayItem, getRandomBoolean} from './utils.js';
 
-const COUNT = 5;
+const COUNT = 16;
+export const ESC_KEYCODE = 27;
 export const CITIES = [`Moscow`, `Tokyo`, `Paris`, `Melbourne`, `Sydney`, `Berlin`];
 export const FILTERS_NAMES = [`Everything`, `Future`, `Past`];
 
@@ -46,14 +47,6 @@ export const suffixForPoint = Object.assign(
     generateTypesMap(PLACE_TYPES, Suffix.PLACE)
 );
 
-export const Destination = {
-  MOSCOW: `Moscow`,
-  TOKYO: `Tokyo`,
-  PARIS: `Paris`,
-  MELBURN: `Melbourne`,
-  SYDNEY: `Sydney`,
-  BERLIN: `Berlin`
-};
 
 export const DESCRIPTION =
   `Lorem ipsum dolor sit amet, consectetur adipiscing elit.
@@ -81,19 +74,7 @@ export const OfferType = {
 export const generateDescription = () => {
   return DESCRIPTION.split(/\.\s+/).sort(getRandomBoolean).slice(0, COUNT).join(`.`);
 };
-export const destinationDetails = Object.values(Destination).reduce(
-    (acc, name) =>
-      Object.assign(acc, {
-        [name]: {
-          description: generateDescription(),
-          photos: new Array(getRandomInteger(COUNT, 1)).fill(``).map(() => ({
-            src: `http://picsum.photos/300/150?r=${Math.random()}`,
-            description: getRandomArrayItem(DESCRIPTION.split(/\.\s+/))
-          }))
-        }
-      }),
-    {}
-);
+
 export const Offer = Object.values(OfferType).reduce(
     (acc, type) =>
       Object.assign(acc, {
@@ -105,16 +86,6 @@ export const Offer = Object.values(OfferType).reduce(
     {}
 );
 
-
-export const populateEvent = (event) =>
-  Object.assign({}, event, {
-    destination: Object.assign(
-        {name: event.destination},
-        destinationDetails[event.destination]
-    ),
-    offers: event.offers.map((type) => Offer[type]),
-    suffix: suffixForPoint[event.type]
-  });
 export const MONTH_NAMES = [
   `January`,
   `February`,
@@ -138,7 +109,7 @@ export const offersForEvent = Object.values(EventType).reduce(
       Object.assign(acc, {
         [type]: Object.values(OfferType)
           .sort(getRandomBoolean)
-          .slice(getRandomInteger(COUNT))
+          .slice(getRandomInteger(COUNT, 0))
       }),
     {}
 );
