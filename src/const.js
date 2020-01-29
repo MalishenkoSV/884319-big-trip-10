@@ -1,6 +1,6 @@
 import {getRandomInteger, getRandomArrayItem, getRandomBoolean} from './utils.js';
 
-const COUNT = 5;
+const COUNT = 16;
 export const ESC_KEYCODE = 27;
 export const CITIES = [`Moscow`, `Tokyo`, `Paris`, `Melbourne`, `Sydney`, `Berlin`];
 export const FILTERS_NAMES = [`Everything`, `Future`, `Past`];
