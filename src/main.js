@@ -8,7 +8,7 @@ import Event from './components/event.js';
 import Day from './components/day.js';
 import DaysList from './components/days-list.js';
 import FormEdit from './components/form-edit.js';
-import Massage from './components/massage.js';
+import Message from './components/message.js';
 import {generatePoints} from './mock/data-event.js';
 import {render, RenderPosition} from './utils/render.js';
 
@@ -27,7 +27,7 @@ const menu = new Menu();
 const filters = new Filters();
 const formSort = new FormSort();
 const daysList = new DaysList();
-const massage = new Massage();
+const message = new Message();
 
 const renderTripDay = (day, dayIndex) => {
   const dayItem = new Day(day, dayIndex);
@@ -38,7 +38,7 @@ const renderTripDay = (day, dayIndex) => {
     const formEdit = new FormEdit(dataEvent);
     const eventListElement = dayItem.getElement().querySelector(`.trip-events__list`);
     const editButton = eventItem.getElement().querySelector(`.event__rollup-btn`);
-    const formEditSubmit = formEdit.getElement().querySelector(`.event__rollup-btn`);
+    const formEditSubmit = formEdit.getElement();
     const replaceEventToEdit = () => {
       eventListElement.replaceChild(formEdit.getElement(), eventItem.getElement());
     };
@@ -50,8 +50,8 @@ const renderTripDay = (day, dayIndex) => {
     const onEscPressDown = (evt) => {
       if (evt.keyCode === ESC_KEYCODE) {
         replaceEditToEvent();
-        document.removeEventListener(`keydown`, onEscPressDown);
       }
+      document.removeEventListener(`keydown`, onEscPressDown);
     };
     editButton.addEventListener(`click`, () => {
       replaceEventToEdit();
@@ -61,7 +61,6 @@ const renderTripDay = (day, dayIndex) => {
       evt.preventDefault();
       replaceEditToEvent();
     });
-
     render(eventListElement, eventItem.getElement());
   });
   return dayItem;
@@ -69,7 +68,7 @@ const renderTripDay = (day, dayIndex) => {
 
 
 if (eventsData.length === 0) {
-  render(placeEventsTrip, massage.getElement());
+  render(placeEventsTrip, message.getElement());
 } else {
   render(tripInfoPlace, tripInfo.getElement(), RenderPosition.AFTER_BEGIN);
   render(placeMainControl, menu.getElement(), RenderPosition.AFTER_BEGIN);

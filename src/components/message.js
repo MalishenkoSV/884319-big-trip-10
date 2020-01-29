@@ -6,7 +6,7 @@ const createNoEventTemplate = () => {
   );
 };
 
-export default class Massage {
+export default class Message {
   constructor() {
     this._element = null;
   }
