@@ -38,7 +38,7 @@ const renderTripDay = (day, dayIndex) => {
     const formEdit = new FormEdit(dataEvent);
     const eventListElement = dayItem.getElement().querySelector(`.trip-events__list`);
     const editButton = eventItem.getElement().querySelector(`.event__rollup-btn`);
-    const formEditSubmit = formEdit.getElement();
+    const formEditSubmit = formEdit.getElement().querySelector(`.event--edit`);
     const replaceEventToEdit = () => {
       eventListElement.replaceChild(formEdit.getElement(), eventItem.getElement());
     };
@@ -50,16 +50,20 @@ const renderTripDay = (day, dayIndex) => {
     const onEscPressDown = (evt) => {
       if (evt.keyCode === ESC_KEYCODE) {
         replaceEditToEvent();
+        document.removeEventListener(`keydown`, onEscPressDown);
       }
-      document.removeEventListener(`keydown`, onEscPressDown);
     };
     editButton.addEventListener(`click`, () => {
       replaceEventToEdit();
       document.addEventListener(`keydown`, onEscPressDown);
     });
-    formEditSubmit.addEventListener(`submit`, (evt) => {
-      evt.preventDefault();
+    formEditSubmit.addEventListener(`click`, () => {
       replaceEditToEvent();
+      document.addEventListener(`keydown`, onEscPressDown);
+    });
+    formEditSubmit.addEventListener(`submit`, () => {
+      replaceEditToEvent();
+      document.removeEventListener(`keydown`, onEscPressDown);
     });
     render(eventListElement, eventItem.getElement());
   });
